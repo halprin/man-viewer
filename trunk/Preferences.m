@@ -11,6 +11,16 @@
 
 @implementation Preferences
 
+-(Preferences*)init
+{
+	if(self=[super init])
+	{
+		//get notifications when the add textbox has changed
+		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(textChange:) name: @"NSControlTextDidChangeNotification" object: adder];
+	}
+	return self;
+}
+
 -(int)numberOfRowsInTableView: (NSTableView*)aTableView
 {
 	return [newOne count];
@@ -41,11 +51,14 @@
 -(IBAction)add:(id)sender
 {
 	[self addEntry: [adder stringValue] withReload: YES];
+	[adder setStringValue: @""];
+	[[NSNotificationCenter defaultCenter] postNotificationName: @"NSControlTextDidChangeNotification" object: adder];
 }
 
 -(IBAction)delete:(id)sender
 {
-	
+	[newOne removeObjectAtIndex: [entries selectedRow]];
+	[entries reloadData];
 }
 
 -(IBAction)ok:(id)sender
@@ -54,6 +67,18 @@
 	*original=[[NSMutableArray arrayWithArray: newOne] retain];
 	[window orderOut: self];
 	[NSApp endSheet: window returnCode: 0];
+}
+
+-(void)textChange: (NSNotification*)notification
+{
+	if([[adder stringValue] length]!=0)  //the adder textbox has text so enable the add button
+	{
+		[addButton setEnabled: YES];
+	}
+	else  //disable the add button
+	{
+		[addButton setEnabled: NO];
+	}
 }
 
 -(IBAction)cancel:(id)sender
@@ -70,10 +95,6 @@
 -(void)setOriginal: (NSMutableArray**)theOriginal;
 {
 	original=theOriginal;
-}
-
--(void)loadOriginal
-{
 	[newOne autorelease];
 	newOne=[[NSMutableArray arrayWithArray: *original] retain];
 	[entries reloadData];

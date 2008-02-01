@@ -14,9 +14,11 @@
 	IBOutlet NSTableView *entries;
 	IBOutlet NSTextField *adder;
 	IBOutlet NSWindow *window;
+	IBOutlet NSButton *addButton;
 	NSMutableArray *newOne;
 	NSMutableArray **original;
 }
+-(Preferences*)init;
 -(int)numberOfRowsInTableView: (NSTableView*)aTableView;
 -(id)tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)aTableColumn row: (int)rowIndex;
 -(void)tableView: (NSTableView*)aTableView setObjectValue: (id)anObject forTableColumn: (NSTableColumn*)aTableColumn row: (int)rowIndex;
@@ -24,9 +26,9 @@
 -(IBAction)add:(id)sender;
 -(IBAction)delete:(id)sender;
 -(IBAction)ok:(id)sender;
+-(void)textChange: (NSNotification*)notification;
 -(IBAction)cancel:(id)sender;
 -(NSWindow*)window;
 -(void)setOriginal: (NSMutableArray**)theOriginal;
--(void)loadOriginal;
 -(void)dealloc;
 @end

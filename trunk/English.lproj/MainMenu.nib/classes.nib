@@ -45,6 +45,8 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>addButton</key>
+				<string>NSButton</string>
 				<key>adder</key>
 				<string>NSTextField</string>
 				<key>entries</key>
