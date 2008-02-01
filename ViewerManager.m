@@ -87,7 +87,6 @@
 -(IBAction)showPreferences: (id)sender
 {
 	[preferences setOriginal: &searchDirectories];
-	[preferences loadOriginal];
 	[NSApp beginSheet: [preferences window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
 }
 
