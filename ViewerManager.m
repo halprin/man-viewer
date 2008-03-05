@@ -146,6 +146,62 @@
 	[NSApp beginSheet: [preferences window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
 }
 
+-(IBAction)saveText: (id)sender
+{
+	NSSavePanel* sPanel=[NSSavePanel savePanel];
+	[sPanel setRequiredFileType: @"txt"];
+	[sPanel setCanSelectHiddenExtension: YES];
+	[sPanel beginSheetForDirectory: nil file: nil modalForWindow: window modalDelegate: self didEndSelector: @selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo: @"text"];
+}
+
+-(IBAction)savePDF: (id)sender
+{
+	NSSavePanel* sPanel=[NSSavePanel savePanel];
+	[sPanel setRequiredFileType: @"ps"];
+	[sPanel setCanSelectHiddenExtension: YES];
+	[sPanel beginSheetForDirectory: nil file: nil modalForWindow: window modalDelegate: self didEndSelector: @selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo: @"pdf"];
+}
+
+-(void)savePanelDidEnd: (NSSavePanel*)sheet returnCode: (int)returnCode contextInfo: (void*)contextInfo
+{
+	if(returnCode==NSOKButton)
+	{
+		//the user clicked Save
+		if([(NSString*)contextInfo isEqualToString: @"text"])
+		{
+			//they wanted to save the text
+			[[[viewer textStorage] mutableString] writeToFile: [sheet filename] atomically: YES encoding: NSUTF8StringEncoding error: nil];
+		}
+		else
+		{
+			//they wanted to save it as a styled postscript
+			ManEntry* entry=[[manlist selectedObjects] objectAtIndex: 0];
+			NSString* man=[entry name];
+			NSString* section=[entry section];
+			//concat the searchDirectories together
+			NSString* directories=[NSString string];
+			for(NSString* directory in searchDirectories)
+			{
+				directories=[[directories stringByAppendingString: directory] stringByAppendingString: @":"];
+			}
+			directories=[directories substringToIndex: [directories length]-1];
+			
+			NSTask* task=[[NSTask alloc] init];
+			[task autorelease];
+			[task setLaunchPath: @"/usr/bin/man"];
+			//set the arguments and the output pipe
+			[task setArguments: [NSArray arrayWithObjects: @"-t", section, man, @"-M", directories, nil]];
+			[task setStandardOutput: [NSPipe pipe]];
+			[task setStandardError: [NSPipe pipe]];
+			NSFileHandle *file=[[task standardOutput] fileHandleForReading];
+			[task launch];
+			//get the output
+			NSData* encodedPS=[NSData dataWithData: [file readDataToEndOfFile]];
+			[encodedPS writeToFile: [sheet filename] atomically: YES];
+		}
+	}
+}
+
 -(IBAction)search: (id)sender
 {
 	//set the searchString
@@ -159,22 +215,53 @@
 	}
 	else if(![searchString isEqualToString: @""])
 	{
+		//only search is set
 		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"name CONTAINS %@", searchString]];
 	}
 	else if(![filterString isEqualToString: @""])
 	{
+		//only the filter is set
 		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"section BEGINSWITH %@", filterString]];
 	}
 	else
 	{
+		//none are set
 		[manlist setFilterPredicate: nil];
 	}
 }
 
 -(IBAction)filter: (id)sender
 {
-	//TODO:  implement the filtering
-	NSLog(@"section=%i", [sender indexOfSelectedItem]);
+	//set the filterString
+	[filterString autorelease];
+	filterString=[[NSString stringWithFormat: @"%i", [sender indexOfSelectedItem]] retain];
+	if([filterString isEqualToString: @"0"])
+	{
+		//All is selected
+		[filterString autorelease];
+		filterString=[[NSString string] retain];
+	}
+	
+	if(![filterString isEqualToString: @""] && ![searchString isEqualToString: @""])
+	{
+		//both are set
+		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"section BEGINSWITH %@ && name CONTAINS %@", filterString, searchString]];
+	}
+	else if(![searchString isEqualToString: @""])
+	{
+		//only search is set
+		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"name CONTAINS %@", searchString]];
+	}
+	else if(![filterString isEqualToString: @""])
+	{
+		//only the filter is set
+		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"section BEGINSWITH %@", filterString]];
+	}
+	else
+	{
+		//none are set
+		[manlist setFilterPredicate: nil];
+	}
 }
 
 -(IBAction)update: (id)sender
@@ -296,5 +383,3 @@
 }
 
 @end
-
-//TODO:  Add HTML credit section to appear in About Man Viewer menu item

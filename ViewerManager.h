@@ -26,6 +26,9 @@
 -(void)applicationDidFinishLaunching: (NSNotification*)notification;
 -(void)applicationWillTerminate: (NSNotification*)notification;
 -(IBAction)showPreferences: (id)sender;
+-(IBAction)saveText: (id)sender;
+-(IBAction)savePDF: (id)sender;
+-(void)savePanelDidEnd: (NSSavePanel*)sheet returnCode: (int)returnCode contextInfo: (void*)contextInfo;
 -(IBAction)search: (id)sender;
 -(IBAction)filter: (id)sender;
 -(IBAction)update: (id)sender;
