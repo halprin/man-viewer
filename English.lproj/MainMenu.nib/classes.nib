@@ -60,6 +60,10 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>filter</key>
+				<string>id</string>
+				<key>search</key>
+				<string>id</string>
 				<key>showPreferences</key>
 				<string>id</string>
 				<key>update</key>
@@ -77,6 +81,8 @@
 				<string>NSPopUpButton</string>
 				<key>loader</key>
 				<string>Loader</string>
+				<key>manlist</key>
+				<string>NSArrayController</string>
 				<key>preferences</key>
 				<string>Preferences</string>
 				<key>searcher</key>

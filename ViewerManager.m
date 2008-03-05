@@ -6,48 +6,103 @@
 {
 	if(self=[super init])
 	{
-		manlist=[NSMutableArray array];
 		searchDirectories=[NSMutableArray array];
-		[manlist retain];
 		[searchDirectories retain];
+		searchString=[[NSString string] retain];
+		filterString=[[NSString string] retain];
+		loaded=NO;
 	}
 	return self;
 }
 
--(int)numberOfRowsInTableView: (NSTableView*)aTableView
+-(void)tableViewSelectionDidChange: (NSNotification*)notification
 {
-	return [manlist count];
-}
-
--(id)tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)aTableColumn row: (int)rowIndex
-{
-	NSParameterAssert(rowIndex>=0 && rowIndex<[manlist count]);
-	id theRecord=[manlist objectAtIndex: rowIndex];
-	id theValue=[theRecord objectForKey: [aTableColumn identifier]];
-	return theValue;
-}
-
--(void)tableView: (NSTableView*)aTableView setObjectValue: (id)anObject forTableColumn: (NSTableColumn*)aTableColumn row: (int)rowIndex
-{
-	NSParameterAssert(rowIndex>=0 && rowIndex<[manlist count]);
-	id theRecord=[manlist objectAtIndex: rowIndex];
-	[theRecord setObject: anObject forKey: [aTableColumn identifier]];
-}
-
--(void)addEntry: (NSString*)name withReload: (BOOL)flag
-{
-	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-	[dict setObject: name forKey: @"man"];
-	[manlist addObject: dict];
-	if(flag)
+	//if the man pages haven't been loaded yet, bail out
+	if(!loaded)
 	{
-		[entries reloadData];
+		return;
 	}
+	//this comes up when doing the searching
+	//it needs to bail out or it exploes
+	if([[manlist selectedObjects] count]<1)
+	{
+		return;
+	}
+	ManEntry* entry=[[manlist selectedObjects] objectAtIndex: 0];
+	NSString* man=[entry name];
+	NSString* section=[entry section];
+	//concat the searchDirectories together
+	NSString* directories=[NSString string];
+	for(NSString* directory in searchDirectories)
+	{
+		directories=[[directories stringByAppendingString: directory] stringByAppendingString: @":"];
+	}
+	directories=[directories substringToIndex: [directories length]-1];
+	
+	NSTask* task=[[NSTask alloc] init];
+	[task autorelease];
+	[task setLaunchPath: @"/usr/bin/man"];
+	//set the arguments and the output pipe
+	[task setArguments: [NSArray arrayWithObjects: section, man, @"-M", directories, nil]];
+	[task setStandardOutput: [NSPipe pipe]];
+	[task setStandardError: [NSPipe pipe]];
+	NSFileHandle *file=[[task standardOutput] fileHandleForReading];
+	NSFileHandle *error=[[task standardError] fileHandleForReading];
+	[task launch];
+	//get the output
+	NSData* encodedMan=[NSData dataWithData: [file readDataToEndOfFile]];
+	//check if we had an error
+	if([[error readDataToEndOfFile] length]>0)
+	{
+		//we had an error, most likely that man page does not exist
+		[[[viewer textStorage] mutableString] setString: @"That man page does not exist!"];
+		return;
+	}
+	
+	
+	task=[[NSTask alloc] init];
+	[task autorelease];
+	[task setLaunchPath: @"/usr/bin/col"];
+	//set the arguments and the output pipe
+	[task setArguments: [NSArray arrayWithObjects: @"-b", nil]];
+	[task setStandardInput: [NSPipe pipe]];
+	[task setStandardOutput: [NSPipe pipe]];
+	NSFileHandle* input=[[task standardInput] fileHandleForWriting];
+	file=[[task standardOutput] fileHandleForReading];
+	[task launch];
+	[input writeData: encodedMan];
+	[input closeFile];
+
+	NSString *contents=[[NSString alloc] initWithData: [file readDataToEndOfFile] encoding: NSUTF8StringEncoding];
+	[contents autorelease];
+	
+	//actually display the stuff
+	if(contents==nil)
+	{
+		[[[viewer textStorage] mutableString] setString: @"That man page does not exist!"];
+	}
+	else
+	{
+		[[[viewer textStorage] mutableString] setString: contents];
+	}
+}
+
+-(void)addEntry: (NSString*)name withSection: (NSString*)section
+{
+	ManEntry* newOne=[[[ManEntry alloc] initWithName: name andSection: section] autorelease];
+	NSUInteger location=[[manlist content] indexOfObject: newOne];
+	if(location!=NSNotFound)
+	{
+		[[manlist content] removeObjectAtIndex: location];
+	}
+	[manlist addObject: newOne];
 }
 
 -(void)applicationDidFinishLaunching: (NSNotification*)notification
 {
-	[entries setDataSource: self];
+	//set the font
+	[[viewer textStorage] setFont: [NSFont fontWithName: @"Courier" size: 12.0]];
+	//set the predicate
 	
 	//load the preferences
 	NSFileManager *prefs=[NSFileManager defaultManager];
@@ -69,16 +124,17 @@
 	
 	//now do the heavy lifting to read in the man pages
 	[self load];
-	[entries reloadData];
 	
 	//dismiss the loader sheet
 	[[loader window] orderOut: self];
 	[NSApp endSheet: [loader window] returnCode: 0];
 	[[loader progressBar] stopAnimation: self];
+	loaded=YES;
 }
 
 -(void)applicationWillTerminate: (NSNotification*)notification
 {
+	//write the preferences
 	NSMutableDictionary *root=[NSMutableDictionary dictionary];
 	[root setValue: searchDirectories forKey: @"searchDirectories"];
 	[root writeToFile: [NSHomeDirectory() stringByAppendingString: @"/Library/Preferences/com.atPAK.Man Viewer.plist"] atomically: YES];
@@ -90,8 +146,40 @@
 	[NSApp beginSheet: [preferences window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
 }
 
+-(IBAction)search: (id)sender
+{
+	//set the searchString
+	[searchString autorelease];
+	searchString=[[NSString stringWithString: [sender stringValue]] retain];
+	
+	if(![filterString isEqualToString: @""] && ![searchString isEqualToString: @""])
+	{
+		//both are set
+		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"section BEGINSWITH %@ && name CONTAINS %@", filterString, searchString]];
+	}
+	else if(![searchString isEqualToString: @""])
+	{
+		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"name CONTAINS %@", searchString]];
+	}
+	else if(![filterString isEqualToString: @""])
+	{
+		[manlist setFilterPredicate: [NSPredicate predicateWithFormat: @"section BEGINSWITH %@", filterString]];
+	}
+	else
+	{
+		[manlist setFilterPredicate: nil];
+	}
+}
+
+-(IBAction)filter: (id)sender
+{
+	//TODO:  implement the filtering
+	NSLog(@"section=%i", [sender indexOfSelectedItem]);
+}
+
 -(IBAction)update: (id)sender
 {
+	loaded=NO;
 	//show the loader sheet
 	[[loader progressBar] startAnimation: self];
 	[NSApp beginSheet: [loader window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
@@ -102,12 +190,18 @@
 	[[loader window] orderOut: self];
 	[NSApp endSheet: [loader window] returnCode: 0];
 	[[loader progressBar] stopAnimation: self];
+	loaded=YES;
 }
 
 -(void)load
 {
 	//clear the list
-	[manlist removeAllObjects];
+	[[manlist content] removeAllObjects];
+	//set up the progress bar
+	[[loader progressBar] setDoubleValue: 0.0];
+	[[loader progressBar] setMaxValue: 10*[searchDirectories count]];
+	[window display];
+	[[loader window] display];
 	
 	//iterate through the search directories
 	for(NSString* directory in searchDirectories)
@@ -165,24 +259,42 @@
 				NSArray* contents=[checker contentsOfDirectoryAtPath: path error: NULL];
 				for(NSString* man in contents)  //iterate through the contents and add them
 				{
-					[self addEntry: man withReload: NO];
+					//test if there is .gz extentsion and remove it
+					if([[man pathExtension] isEqualToString: @"gz"])
+					{
+						man=[man stringByReplacingOccurrencesOfString: @".gz" withString: @""];
+					}
+					//parse out the section and format
+					NSString* section=[[man componentsSeparatedByString: @"."] lastObject];
+					man=[man substringToIndex: ([man length]-[section length]-1)];
+					[self addEntry: man withSection: section];
 				}
 			}
+			//update the progress bar
+			[[loader progressBar] incrementBy: 1.0];
+			[[loader window] display];
 		}
 	}
+	//update the progress bar
+	[[loader progressBar] setDoubleValue: [[loader progressBar] maxValue]];
+	[[loader window] display];
 	
-	//sort
-	//TODO:  fix sort so that lower and uppercase a/A's are together
-	NSSortDescriptor* sorter=[[NSSortDescriptor alloc] initWithKey: @"man" ascending: YES];
+	//set the sort type
+	NSSortDescriptor* sorter=[[NSSortDescriptor alloc] initWithKey: @"name" ascending: YES selector: @selector(caseInsensitiveCompare:)];
 	[sorter autorelease];
-	[manlist sortUsingDescriptors: [NSArray arrayWithObject: sorter]];
+	[manlist setSortDescriptors: [NSArray arrayWithObject: sorter]];
+	
+	[manlist rearrangeObjects];
 }
 
 -(void)dealloc
 {
-	[manlist release];
 	[searchDirectories release];
+	[searchString release];
+	[filterString release];
 	[super dealloc];
 }
 
 @end
+
+//TODO:  Add HTML credit section to appear in About Man Viewer menu item
