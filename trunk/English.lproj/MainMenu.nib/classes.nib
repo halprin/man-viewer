@@ -62,6 +62,10 @@
 			<dict>
 				<key>filter</key>
 				<string>id</string>
+				<key>savePDF</key>
+				<string>id</string>
+				<key>saveText</key>
+				<string>id</string>
 				<key>search</key>
 				<string>id</string>
 				<key>showPreferences</key>
