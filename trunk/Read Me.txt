@@ -1,0 +1,13 @@
+Thanks for downloading Man Viewer!  It allows you to easily view UNIX manual pages.
+
+A couple things you can do is search based on the name, filter based on the section, save the man page in plain text and in Styled PostScript.  The Styled PostScript can be converted to a PDF by opening the .ps file in Preview.app.
+You can view the preferences by pressing command + , where you can customize the directories for Man Viewer to search for man pages.  Just type a new path in the text box and then press the + button to add a directory.  Select a directory in the list and press the - buton to delete it.  Double click on an directory in the list to edit it.
+
+
+Change log:
+
+Version 3.0:
+*Programmed in Cocoa, therefore Man Viewer is a Universal Binary, faster, smaller, and better!
+*Preferences have been improved
+*Faster searching
+*Support for Mac OS X 10.5 with no .gz duplicates

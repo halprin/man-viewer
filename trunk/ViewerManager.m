@@ -140,6 +140,18 @@
 	[root writeToFile: [NSHomeDirectory() stringByAppendingString: @"/Library/Preferences/com.atPAK.Man Viewer.plist"] atomically: YES];
 }
 
+-(CGFloat)splitView: (NSSplitView *)sender constrainMinCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset
+{
+	//constrain the split view so you can't shrink the list all the way
+	return proposedMin+90.0;
+}
+
+-(CGFloat)splitView: (NSSplitView *)sender constrainMaxCoordinate: (CGFloat)proposedMax ofSubviewAt: (NSInteger)offset
+{
+	//constrain the split view so you can't shrink the text box all the way
+	return proposedMax-200.0;
+}
+
 -(IBAction)showPreferences: (id)sender
 {
 	[preferences setOriginal: &searchDirectories];

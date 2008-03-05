@@ -25,6 +25,8 @@
 -(void)addEntry: (NSString*)name withSection: (NSString*)section;
 -(void)applicationDidFinishLaunching: (NSNotification*)notification;
 -(void)applicationWillTerminate: (NSNotification*)notification;
+-(CGFloat)splitView: (NSSplitView *)sender constrainMinCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset;
+-(CGFloat)splitView: (NSSplitView *)sender constrainMaxCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset;
 -(IBAction)showPreferences: (id)sender;
 -(IBAction)saveText: (id)sender;
 -(IBAction)savePDF: (id)sender;
