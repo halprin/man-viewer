@@ -14,6 +14,7 @@
 		EE01D7690D52E2BD00B48BEA /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7680D52E2BD00B48BEA /* Loader.m */; };
 		EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7AC0D52E8FE00B48BEA /* Preferences.m */; };
 		EECABAB60D52AFD800F5084A /* hex.icns in Resources */ = {isa = PBXBuildFile; fileRef = EECABAB50D52AFD800F5084A /* hex.icns */; };
+		EED5CA0E0D78ACD8006928CF /* ManEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA0D0D78ACD8006928CF /* ManEntry.m */; };
 		EEF27B8A0B84BB1700802668 /* ViewerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF27B890B84BB1700802668 /* ViewerManager.m */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,8 @@
 		EE01D7AB0D52E8FE00B48BEA /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		EE01D7AC0D52E8FE00B48BEA /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
 		EECABAB50D52AFD800F5084A /* hex.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hex.icns; sourceTree = "<group>"; };
+		EED5CA0C0D78ACD8006928CF /* ManEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManEntry.h; sourceTree = "<group>"; };
+		EED5CA0D0D78ACD8006928CF /* ManEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManEntry.m; sourceTree = "<group>"; };
 		EEF27B880B84BB1700802668 /* ViewerManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerManager.h; sourceTree = "<group>"; };
 		EEF27B890B84BB1700802668 /* ViewerManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ViewerManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,6 +55,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EED5CA0C0D78ACD8006928CF /* ManEntry.h */,
+				EED5CA0D0D78ACD8006928CF /* ManEntry.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				EEF27B8A0B84BB1700802668 /* ViewerManager.m in Sources */,
 				EE01D7690D52E2BD00B48BEA /* Loader.m in Sources */,
 				EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */,
+				EED5CA0E0D78ACD8006928CF /* ManEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
