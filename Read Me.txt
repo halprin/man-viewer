@@ -1,7 +1,12 @@
+Man Viewer
+http://www.kendallp.net/at_PAK/
+
 Thanks for downloading Man Viewer!  It allows you to easily view UNIX manual pages.
 
-A couple things you can do is search based on the name, filter based on the section, save the man page in plain text and in Styled PostScript.  The Styled PostScript can be converted to a PDF by opening the .ps file in Preview.app.
-You can view the preferences by pressing command + , where you can customize the directories for Man Viewer to search for man pages.  Just type a new path in the text box and then press the + button to add a directory.  Select a directory in the list and press the - buton to delete it.  Double click on an directory in the list to edit it.
+A couple things you can do is search based on the name, filter based on the section, save the man page in plain text and in Styled PostScript.  The Styled PostScript can be converted to a PDF by opening the saved file in Preview.app.
+You can view the preferences by pressing (command + ,).  Here you can customize the directories that Man Viewer searches for man pages.  Just type a new path in the text box and then press the + button to add a directory.  Select a directory in the list and press the - buton to delete it.  Double click on a directory in the list to edit it.
+
+If you find any bugs, or have any comments or suggestions, feel free to send me an email at peter@kendallp.net.
 
 
 Change log:
