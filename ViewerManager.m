@@ -50,7 +50,24 @@
 	NSFileHandle *error=[[task standardError] fileHandleForReading];
 	[task launch];
 	//get the output
-	NSData* encodedMan=[NSData dataWithData: [file readDataToEndOfFile]];
+	//This parsing/splitting of the data is because of some of the man pages are so large, they choke up col.  We split it up in 131,072 byte sets.  Most man pages should fit in just one of these sets.
+	NSMutableArray* encodedMan=[NSMutableArray array];
+	NSData* data=[file readDataToEndOfFile];
+	int dataOffset;
+	int end=131072;
+	if([data length]<end)
+	{
+		end=[data length];
+	}
+	for(dataOffset=0; dataOffset<[data length]; dataOffset+=131072)
+	{
+		if(dataOffset+end>[data length])
+		{
+			end=[data length]-dataOffset;
+		}
+		NSRange range={dataOffset, end};
+		[encodedMan addObject: [data subdataWithRange: range]];
+	}
 	//check if we had an error
 	if([[error readDataToEndOfFile] length]>0)
 	{
@@ -59,22 +76,24 @@
 		return;
 	}
 	
-	
-	task=[[NSTask alloc] init];
-	[task autorelease];
-	[task setLaunchPath: @"/usr/bin/col"];
-	//set the arguments and the output pipe
-	[task setArguments: [NSArray arrayWithObjects: @"-b", nil]];
-	[task setStandardInput: [NSPipe pipe]];
-	[task setStandardOutput: [NSPipe pipe]];
-	NSFileHandle* input=[[task standardInput] fileHandleForWriting];
-	file=[[task standardOutput] fileHandleForReading];
-	[task launch];
-	[input writeData: encodedMan];
-	[input closeFile];
-
-	NSString *contents=[[NSString alloc] initWithData: [file readDataToEndOfFile] encoding: NSUTF8StringEncoding];
-	[contents autorelease];
+	//call /usr/bin/col for each 131,072 bytes of data because for any larger data, col crashes.
+	NSMutableArray* contents=[NSMutableArray array];
+	for(NSData* writeData in encodedMan)
+	{
+		task=[[NSTask alloc] init];
+		[task autorelease];
+		[task setLaunchPath: @"/usr/bin/col"];
+		//set the arguments and the output pipe
+		[task setArguments: [NSArray arrayWithObjects: @"-b", nil]];
+		[task setStandardInput: [NSPipe pipe]];
+		[task setStandardOutput: [NSPipe pipe]];
+		NSFileHandle* input=[[task standardInput] fileHandleForWriting];
+		file=[[task standardOutput] fileHandleForReading];
+		[task launch];
+		[input writeData: writeData];
+		[input closeFile];
+		[contents addObject: [[[NSString alloc] initWithData: [file readDataToEndOfFile] encoding: NSUTF8StringEncoding] autorelease]];
+	}
 	
 	//actually display the stuff
 	if(contents==nil)
@@ -83,7 +102,7 @@
 	}
 	else
 	{
-		[[[viewer textStorage] mutableString] setString: contents];
+		[[[viewer textStorage] mutableString] setString: [contents componentsJoinedByString: @""]];
 	}
 }
 
