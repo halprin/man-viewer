@@ -4,6 +4,8 @@
 #import "Loader.h"
 #import "Preferences.h"
 #import "ManEntry.h"
+#import "TabCollectionView.h"
+#import "TabDropdownView.h"
 
 @interface ViewerManager : NSObject
 {
@@ -16,6 +18,8 @@
 	IBOutlet Preferences *preferences;
 	IBOutlet NSArrayController* manlist;
 	NSMutableArray *searchDirectories;
+	//IBOutlet TabCollectionView* tabs;
+	//IBOutlet TabDropdownView* dropdown;
 	BOOL loaded;
 	NSString* searchString;
 	NSString* filterString;
@@ -28,6 +32,7 @@
 -(CGFloat)splitView: (NSSplitView *)sender constrainMinCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset;
 -(CGFloat)splitView: (NSSplitView *)sender constrainMaxCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset;
 -(IBAction)showPreferences: (id)sender;
+-(void)changeTab: (NSNotification*)notification;
 -(IBAction)saveText: (id)sender;
 -(IBAction)savePDF: (id)sender;
 -(void)savePanelDidEnd: (NSSavePanel*)sheet returnCode: (int)returnCode contextInfo: (void*)contextInfo;

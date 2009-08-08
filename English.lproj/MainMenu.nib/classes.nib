@@ -5,12 +5,64 @@
 	<key>IBClasses</key>
 	<array>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addTab</key>
+				<string>id</string>
+				<key>newSelection</key>
+				<string>TabView</string>
+				<key>nextTab</key>
+				<string>id</string>
+				<key>previousTab</key>
+				<string>id</string>
+				<key>tabToBeRemoved</key>
+				<string>TabView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TabCollectionView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>dropdown</key>
+				<string>TabDropdownView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>itemSelected</key>
+				<string>NSMenuItem</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TabDropdownView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPopUpButton</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>closeSelf</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TabView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -60,7 +112,17 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>chooseTab</key>
+				<string>id</string>
+				<key>closeTab</key>
+				<string>id</string>
 				<key>filter</key>
+				<string>id</string>
+				<key>newTab</key>
+				<string>id</string>
+				<key>nextTab</key>
+				<string>id</string>
+				<key>previousTab</key>
 				<string>id</string>
 				<key>savePDF</key>
 				<string>id</string>
@@ -79,6 +141,8 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>dropdown</key>
+				<string>TabDropdownView</string>
 				<key>entries</key>
 				<string>NSTableView</string>
 				<key>filter</key>
@@ -91,6 +155,8 @@
 				<string>Preferences</string>
 				<key>searcher</key>
 				<string>NSSearchField</string>
+				<key>tabs</key>
+				<string>TabCollectionView</string>
 				<key>viewer</key>
 				<string>NSTextView</string>
 				<key>window</key>
