@@ -11,6 +11,8 @@
 		searchString=[[NSString string] retain];
 		filterString=[[NSString string] retain];
 		loaded=NO;
+		//listen for changing tabs
+		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(changeTab:) name: @"atPAKTabChange" object: nil];
 	}
 	return self;
 }
@@ -26,11 +28,16 @@
 	//it needs to bail out or it exploes
 	if([[manlist selectedObjects] count]<1)
 	{
+		[[[viewer textStorage] mutableString] setString: @"Please select a man page from the list on the left."];
 		return;
 	}
 	ManEntry* entry=[[manlist selectedObjects] objectAtIndex: 0];
 	NSString* man=[entry name];
 	NSString* section=[entry section];
+	//tell the current tab it's new man page
+	//[tabs replaceObjectAtIndex: currentTab withObject: entry];
+	//[[tabs currentTab] setManEntry: entry];
+	//[[UITabs itemAtIndex: currentTab] setTitle: [man stringByAppendingFormat: @" (%@)", section]];
 	//concat the searchDirectories together
 	NSString* directories=[NSString string];
 	for(NSString* directory in searchDirectories)
@@ -175,6 +182,11 @@
 {
 	[preferences setOriginal: &searchDirectories];
 	[NSApp beginSheet: [preferences window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
+}
+
+-(void)changeTab: (NSNotification*)notification
+{
+	[manlist setSelectedObjects: [NSArray arrayWithObject: [[notification object] manEntry]]];
 }
 
 -(IBAction)saveText: (id)sender
@@ -407,7 +419,9 @@
 
 -(void)dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[searchDirectories release];
+	//[tabs release];
 	[searchString release];
 	[filterString release];
 	[super dealloc];

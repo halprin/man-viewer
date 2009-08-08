@@ -11,8 +11,11 @@ If you find any bugs, or have any comments or suggestions, feel free to send me 
 
 Change log:
 
+Version 3.0.1
+* Fixed a bug that made the program crash when trying to view a large man page
+
 Version 3.0:
-*Programmed in Cocoa, therefore Man Viewer is a Universal Binary, faster, smaller, and better!
-*Preferences have been improved
-*Faster searching
-*Support for Mac OS X 10.5 with no .gz duplicates
+* Programmed in Cocoa, therefore Man Viewer is a Universal Binary, faster, smaller, and better!
+* Preferences have been improved
+* Faster searching
+* Support for Mac OS X 10.5 with no .gz duplicates
