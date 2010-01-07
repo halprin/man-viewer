@@ -73,6 +73,8 @@
 			<dict>
 				<key>progress</key>
 				<string>NSProgressIndicator</string>
+				<key>status</key>
+				<string>NSTextField</string>
 				<key>window</key>
 				<string>NSWindow</string>
 			</dict>
@@ -90,6 +92,8 @@
 				<string>id</string>
 				<key>ok</key>
 				<string>id</string>
+				<key>setToManpath</key>
+				<string>id</string>
 			</dict>
 			<key>CLASS</key>
 			<string>Preferences</string>
@@ -103,6 +107,8 @@
 				<string>NSTextField</string>
 				<key>entries</key>
 				<string>NSTableView</string>
+				<key>subtractButton</key>
+				<string>NSButton</string>
 				<key>window</key>
 				<string>NSWindow</string>
 			</dict>

@@ -17,16 +17,18 @@
 	{
 		[self setName: @"pak"];
 		[self setSection: @"33"];
+		[self setPath: @"path"];
 	}
 	return self;
 }
 
--(ManEntry*)initWithName: (NSString*)aName andSection: (NSString*)aSection
+-(ManEntry*)initWithName: (NSString*)aName andSection: (NSString*)aSection andPath: (NSString*)aPath
 {
 	if(self=[super init])
 	{
 		[self setName: aName];
 		[self setSection: aSection];
+		[self setPath: aPath];
 	}
 	return self;
 }
@@ -41,6 +43,11 @@
 	return section;
 }
 
+-(NSString*)path
+{
+	return path;
+}
+
 -(void)setName: (NSString*)aName
 {
 	[name autorelease];
@@ -52,10 +59,15 @@
 	[section autorelease];
 	section=[aSection retain];
 }
+-(void)setPath: (NSString*)aPath
+{
+	[path autorelease];
+	path=[aPath retain];
+}
 
 -(BOOL)isEqual: (id)anObject
 {
-	if([[anObject name] isEqualToString: [self name]] && [[anObject section] isEqualToString: [self section]])
+	if([[anObject name] isEqualToString: [self name]] && ([[self section] isEqualToString: @""] || [[anObject section] isEqualToString: [self section]]))
 	{
 		return YES;
 	}
@@ -65,10 +77,16 @@
 	}
 }
 
+-(NSString*)hash
+{
+	return [[self name] stringByAppendingString: [self section]];
+}
+
 -(void)dealloc
 {
 	[name release];
 	[section release];
+	[path release];
 	[super dealloc];
 }
 

@@ -11,9 +11,11 @@
 
 @interface Loader : NSObject
 {
-	IBOutlet NSProgressIndicator *progress;
-	IBOutlet NSWindow *window;
+	IBOutlet NSProgressIndicator* progress;
+	IBOutlet NSWindow* window;
+	IBOutlet NSTextField* status;
 }
 -(NSWindow*)window;
 -(NSProgressIndicator*)progressBar;
+-(void)loadedFromCache: (BOOL)flag;
 @end

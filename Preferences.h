@@ -15,6 +15,7 @@
 	IBOutlet NSTextField *adder;
 	IBOutlet NSWindow *window;
 	IBOutlet NSButton *addButton;
+	IBOutlet NSButton* subtractButton;
 	NSMutableArray *newOne;
 	NSMutableArray **original;
 }
@@ -26,6 +27,7 @@
 -(IBAction)add:(id)sender;
 -(IBAction)delete:(id)sender;
 -(IBAction)ok:(id)sender;
+-(IBAction)setToManpath: (id)sender;
 -(void)textChange: (NSNotification*)notification;
 -(IBAction)cancel:(id)sender;
 -(NSWindow*)window;

@@ -52,6 +52,10 @@
 {
 	[self addEntry: [adder stringValue] withReload: YES];
 	[adder setStringValue: @""];
+	if([newOne count]>=1)
+	{
+		[subtractButton setEnabled: YES];
+	}
 	[[NSNotificationCenter defaultCenter] postNotificationName: @"NSControlTextDidChangeNotification" object: adder];
 }
 
@@ -59,14 +63,49 @@
 {
 	[newOne removeObjectAtIndex: [entries selectedRow]];
 	[entries reloadData];
+	if([newOne count]<1)
+	{
+		[subtractButton setEnabled: NO];
+	}
 }
 
 -(IBAction)ok:(id)sender
 {
+	[entries deselectRow: [entries editedRow]];
 	[*original autorelease];
 	*original=[[NSMutableArray arrayWithArray: newOne] retain];
 	[window orderOut: self];
 	[NSApp endSheet: window returnCode: 0];
+}
+
+-(IBAction)setToManpath: (id)sender
+{
+	//stop any editing that was happening
+	[entries deselectRow: [entries editedRow]];
+	//because GUI applications do not branch off of bash (or any shell), certain environment variables do not exist for GUI applications (such as $MANPATH or a custom $PATH)
+	//so we need to actually rerun the login shell as if it is the login CLI so it rereads all it's configuration files and recreates the $MANPATH variable and $PATHs
+	//So what this task is calling a helper program that I created that all it does is exec's the passed in shell with "-" as argv[0] (so it thinks it is a login shell), "-i" so it thinks it is interactive, and finally "-c /usr/bin/manpath" so it executes that command once the shell is done loading.
+	NSTask* task=[[NSTask alloc] init];
+	[task setLaunchPath: [[[NSBundle mainBundle] bundlePath] stringByAppendingString: @"/Contents/Resources/manpath_helper"]];
+	//set the arguments and the output pipe
+	[task setArguments: [NSArray arrayWithObjects: [[[NSProcessInfo processInfo] environment] valueForKey: @"SHELL"], nil]];
+	[task setStandardInput: [NSPipe pipe]];
+	[task setStandardOutput: [NSPipe pipe]];
+	NSFileHandle* output=[[task standardOutput] fileHandleForReading];
+	//fire!
+	[task launch];
+	[task waitUntilExit];
+	[task release];
+	//get the entire response
+	NSString* man_path=[[[NSString alloc] initWithData: [output readDataToEndOfFile] encoding: NSUTF8StringEncoding] autorelease];
+	//stick the response into the list
+	[newOne autorelease];
+	//break it up by \n
+	NSArray* return_temp=[man_path componentsSeparatedByString: @"\n"];
+	//get basically the last full line because it will always be the manpath command output because logout output by the shell is not returned
+	newOne=[[[return_temp objectAtIndex: [return_temp count]-2] componentsSeparatedByString: @":"] retain];
+	//update the list
+	[entries reloadData];
 }
 
 -(void)textChange: (NSNotification*)notification
@@ -83,6 +122,7 @@
 
 -(IBAction)cancel:(id)sender
 {
+	[entries deselectRow: [entries editedRow]];
 	[window orderOut: self];
 	[NSApp endSheet: window returnCode: 0];
 }
