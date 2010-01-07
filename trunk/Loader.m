@@ -21,4 +21,16 @@
 	return progress;
 }
 
+-(void)loadedFromCache: (BOOL)flag
+{
+	if(flag)
+	{
+		[status setStringValue: @"Loading man pages...  (cached)"];
+	}
+	else
+	{
+		[status setStringValue: @"Loading man pages..."];
+	}
+}
+
 @end

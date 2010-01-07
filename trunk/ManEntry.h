@@ -13,14 +13,17 @@
 {
 	NSString* name;
 	NSString* section;
-
+	NSString* path;
 }
 -(ManEntry*)init;
--(ManEntry*)initWithName: (NSString*)aName andSection: (NSString*)aSection;
+-(ManEntry*)initWithName: (NSString*)aName andSection: (NSString*)aSection andPath: (NSString*)aPath;
 -(NSString*)name;
 -(NSString*)section;
+-(NSString*)path;
 -(void)setName: (NSString*)aName;
 -(void)setSection: (NSString*)aSection;
+-(void)setPath: (NSString*)aPath;
 -(BOOL)isEqual: (id)anObject;
+-(NSString*)hash;
 -(void)dealloc;
 @end

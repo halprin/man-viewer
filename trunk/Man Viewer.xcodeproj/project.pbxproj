@@ -13,6 +13,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		EE01D7690D52E2BD00B48BEA /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7680D52E2BD00B48BEA /* Loader.m */; };
 		EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7AC0D52E8FE00B48BEA /* Preferences.m */; };
+		EEADB112108EB0B300EE89D3 /* manpath_helper in Resources */ = {isa = PBXBuildFile; fileRef = EEADB111108EB0B300EE89D3 /* manpath_helper */; };
 		EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = EEB3AAEA0D7E4B9E009C79FA /* Credits.html */; };
 		EECABAB60D52AFD800F5084A /* hex.icns in Resources */ = {isa = PBXBuildFile; fileRef = EECABAB50D52AFD800F5084A /* hex.icns */; };
 		EED5CA0E0D78ACD8006928CF /* ManEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA0D0D78ACD8006928CF /* ManEntry.m */; };
@@ -37,12 +38,15 @@
 		EE0267540DEB7CB60048FFA9 /* tab_dropdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_dropdown.png; sourceTree = "<group>"; };
 		EE0267650DEB85700048FFA9 /* TabDropdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabDropdownView.h; sourceTree = "<group>"; };
 		EE0267660DEB85700048FFA9 /* TabDropdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabDropdownView.m; sourceTree = "<group>"; };
+		EE1FF8DD10F5A1DC00A217A5 /* Feature requests.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Feature requests.txt"; sourceTree = "<group>"; };
 		EE2637640D7F108500251048 /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
 		EE3B99BC0D9F636600133C3B /* TabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabView.h; sourceTree = "<group>"; };
 		EE3B99BD0D9F636600133C3B /* TabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabView.m; sourceTree = "<group>"; };
 		EE3B99C30D9F649900133C3B /* TabCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabCollectionView.h; sourceTree = "<group>"; };
 		EE3B99C40D9F649900133C3B /* TabCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabCollectionView.m; sourceTree = "<group>"; };
 		EE77BD1B0D7F50320011FEE4 /* Man Viewer.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Man Viewer.dmg"; sourceTree = "<group>"; };
+		EEADB103108EAF1300EE89D3 /* manpath_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = manpath_helper.c; sourceTree = "<group>"; };
+		EEADB111108EB0B300EE89D3 /* manpath_helper */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = manpath_helper; sourceTree = "<group>"; };
 		EEB3AAEA0D7E4B9E009C79FA /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		EECABAB50D52AFD800F5084A /* hex.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hex.icns; sourceTree = "<group>"; };
 		EED5CA0C0D78ACD8006928CF /* ManEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManEntry.h; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				EEF27B890B84BB1700802668 /* ViewerManager.m */,
 				EE01D7670D52E2BD00B48BEA /* Loader.h */,
 				EE01D7680D52E2BD00B48BEA /* Loader.m */,
+				EEADB103108EAF1300EE89D3 /* manpath_helper.c */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -142,9 +147,11 @@
 				EE77BD1B0D7F50320011FEE4 /* Man Viewer.dmg */,
 				EEB3AAEA0D7E4B9E009C79FA /* Credits.html */,
 				EECABAB50D52AFD800F5084A /* hex.icns */,
+				EEADB111108EB0B300EE89D3 /* manpath_helper */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				EE1FF8DD10F5A1DC00A217A5 /* Feature requests.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -216,6 +223,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				EECABAB60D52AFD800F5084A /* hex.icns in Resources */,
 				EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */,
+				EEADB112108EB0B300EE89D3 /* manpath_helper in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
