@@ -1,0 +1,7 @@
+* Linking to other man pages
+	* Remember viewing history with forward and back
+* Inlined search similar to Safari
+* Tabs
+* Get the text in  the viewer to not have arbitrary new lines inserted in the man page but wrap instead
+* Make a secondary command line program that opens the main application and auto selects the man page passed into the secondary program
+* Get Xcode to compile manpath_helper.c and insert it into the main application bundle, compared to having to precompile seperately
