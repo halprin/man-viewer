@@ -109,6 +109,18 @@
 	}
 }
 
+-(NSString*)tableView: (NSTableView*)aTableView toolTipForCell: (NSCell*)aCell rect: (NSRectPointer)rect tableColumn: (NSTableColumn*)aTableColumn row: (NSInteger)row mouseLocation: (NSPoint)mouseLocation
+{
+	//return back the path to that man page for the tooltip
+	return [[[manlist arrangedObjects] objectAtIndex: row] path];
+}
+
+-(void)revealInFinder: (id)sender
+{
+	//the user just control/right clicked on an entry and selected Reveal in Finder from the context menu
+	[[NSWorkspace sharedWorkspace] selectFile: [[[manlist selectedObjects] objectAtIndex: 0] path] inFileViewerRootedAtPath: nil];
+}
+
 -(void)addEntry: (NSString*)name withSection: (NSString*)section andPath: (NSString*)path
 {
 	//this method assumes that no duplicates will be handed to it
@@ -218,11 +230,21 @@
 -(void)applicationWillTerminate: (NSNotification*)notification
 {
 	//write the preferences
+	
+	//Bad version
+	/*
 	NSMutableDictionary *root=[NSMutableDictionary dictionary];
 	[root setValue: searchDirectories forKey: @"searchDirectories"];
 	[root setValue: cache forKey: @"cache"];
 	[root setValue: [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"] forKey: @"preferencesVersion"];
 	[root writeToFile: [NSHomeDirectory() stringByAppendingString: @"/Library/Preferences/com.atPAK.Man Viewer.plist"] atomically: YES];
+	*/
+	
+	
+	//Good version
+	[[NSUserDefaults standardUserDefaults] setObject: searchDirectories forKey: @"searchDirectories"];
+	[[NSUserDefaults standardUserDefaults] setObject: cache forKey: @"cache"];
+	[[NSUserDefaults standardUserDefaults] setObject: [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"] forKey: @"preferencesVersion"];
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed: (NSApplication*)theApplication
