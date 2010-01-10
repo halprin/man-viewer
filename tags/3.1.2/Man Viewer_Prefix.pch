@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Man Viewer' target in the 'Man Viewer' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

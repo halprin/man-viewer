@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>Credits</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#FFFFFF">
+
+<font size=4>
+<p align=CENTER>
+By Peter "halprin" Kendall<br>
+<a href="http://www.kendallp.net/at_PAK/">@PAK Software</a>
+<br>
+<br>
+</p>
+Version 3.1.2<br>
+<ul>
+<li>Fixed a bug that made Man Viewer incorrectly state that "That man page does not exist!" when, in reality, it definitely existed</li>
+<li>The window close button is now activated and will quit the application if pressed</li>
+<li>The window size and split view remembers its position between subsequent launches</li>
+<li>You can now have Man Viewer launch and auto select a man page by passing the name (and optionally the section) as a command line argument</li>
+<li>If you load MacPorts' man pages, you should no longer see (turd_MacPorts) in the list</li>
+</ul>
+<br>
+Version 3.1.1<br>
+<ul>
+<li>Changed the $MANPATH feature to use /usr/bin/manpath instead (this is for Snow Leopard users or those who have an empty $MANPATH environment variable)</li>
+<li>Fixed the manpath feature so that it uses your default login shell instead of just bash (this is for those who don't use bash as your login shell)</li>
+<li>Upon clicking on a different man page, the viewer scrolls to the top so you see the beginning whether or not you were scrolled down in the previous man page</li>
+<li>Fixed some minor bugs in the preferences pane</li>
+</ul>
+<br>
+Version 3.1<br>
+<ul>
+<li>Refactored some code so that initial launch times are extremely fast compared to previous versions!</li>
+<li>Added a caching feature so after the initial launch, future launches will yet be even faster</li>
+<li>On first run the preferences default to what $MANPATH is set to.  Also there is now a button in the preferences that allows you to revert the preferences to $MANPATH</li>
+<li>When searching for man pages on disk, Man Viewer now also scans manl sub-folders</li>
+</ul>
+<br>
+Version 3.0.1<br>
+<ul>
+<li>Fixed a bug that made the program crash when trying to view a large man page</li>
+</ul>
+<br>
+Version 3.0<br>
+<ul>
+<li>Programmed in Cocoa, therefore Man Viewer is a Universal Binary, faster, smaller, and better!</li>
+<li>Preferences have been improved</li>
+<li>Faster searching</li>
+<li>Support for Mac OS X 10.5 with no .gz duplicates</li>
+</ul>
+
+</body>
+</html>
