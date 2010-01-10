@@ -27,6 +27,8 @@
 }
 -(ViewerManager*)init;
 -(void)tableViewSelectionDidChange: (NSNotification*)notification;
+-(NSString*)tableView: (NSTableView*)aTableView toolTipForCell: (NSCell*)aCell rect: (NSRectPointer)rect tableColumn: (NSTableColumn*)aTableColumn row: (NSInteger)row mouseLocation: (NSPoint)mouseLocation;
+-(void)revealInFinder: (id)sender;
 -(void)addEntry: (NSString*)name withSection: (NSString*)section andPath: (NSString*)path;
 -(void)applicationDidFinishLaunching: (NSNotification*)notification;
 -(void)applicationWillTerminate: (NSNotification*)notification;

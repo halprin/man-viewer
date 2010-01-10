@@ -13,6 +13,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		EE01D7690D52E2BD00B48BEA /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7680D52E2BD00B48BEA /* Loader.m */; };
 		EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7AC0D52E8FE00B48BEA /* Preferences.m */; };
+		EE436C4410F93BE000216B40 /* PAKTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436C4310F93BE000216B40 /* PAKTableView.m */; };
 		EEADB112108EB0B300EE89D3 /* manpath_helper in Resources */ = {isa = PBXBuildFile; fileRef = EEADB111108EB0B300EE89D3 /* manpath_helper */; };
 		EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = EEB3AAEA0D7E4B9E009C79FA /* Credits.html */; };
 		EECABAB60D52AFD800F5084A /* hex.icns in Resources */ = {isa = PBXBuildFile; fileRef = EECABAB50D52AFD800F5084A /* hex.icns */; };
@@ -44,6 +45,8 @@
 		EE3B99BD0D9F636600133C3B /* TabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabView.m; sourceTree = "<group>"; };
 		EE3B99C30D9F649900133C3B /* TabCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabCollectionView.h; sourceTree = "<group>"; };
 		EE3B99C40D9F649900133C3B /* TabCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabCollectionView.m; sourceTree = "<group>"; };
+		EE436C4210F93BE000216B40 /* PAKTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAKTableView.h; sourceTree = "<group>"; };
+		EE436C4310F93BE000216B40 /* PAKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAKTableView.m; sourceTree = "<group>"; };
 		EE77BD1B0D7F50320011FEE4 /* Man Viewer.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Man Viewer.dmg"; sourceTree = "<group>"; };
 		EEADB103108EAF1300EE89D3 /* manpath_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = manpath_helper.c; sourceTree = "<group>"; };
 		EEADB111108EB0B300EE89D3 /* manpath_helper */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = manpath_helper; sourceTree = "<group>"; };
@@ -73,14 +76,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EE0267650DEB85700048FFA9 /* TabDropdownView.h */,
-				EE0267660DEB85700048FFA9 /* TabDropdownView.m */,
-				EE3B99BC0D9F636600133C3B /* TabView.h */,
-				EE3B99BD0D9F636600133C3B /* TabView.m */,
+				EE436C3F10F93B8F00216B40 /* Tabs */,
 				EED5CA0C0D78ACD8006928CF /* ManEntry.h */,
 				EED5CA0D0D78ACD8006928CF /* ManEntry.m */,
-				EE3B99C30D9F649900133C3B /* TabCollectionView.h */,
-				EE3B99C40D9F649900133C3B /* TabCollectionView.m */,
+				EE436C4210F93BE000216B40 /* PAKTableView.h */,
+				EE436C4310F93BE000216B40 /* PAKTableView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -165,6 +165,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EE436C3F10F93B8F00216B40 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				EE0267650DEB85700048FFA9 /* TabDropdownView.h */,
+				EE0267660DEB85700048FFA9 /* TabDropdownView.m */,
+				EE3B99BC0D9F636600133C3B /* TabView.h */,
+				EE3B99BD0D9F636600133C3B /* TabView.m */,
+				EE3B99C30D9F649900133C3B /* TabCollectionView.h */,
+				EE3B99C40D9F649900133C3B /* TabCollectionView.m */,
+			);
+			name = Tabs;
+			sourceTree = "<group>";
+		};
 		EEDB21E70DA5E308005D0CE3 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +252,7 @@
 				EE01D7690D52E2BD00B48BEA /* Loader.m in Sources */,
 				EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */,
 				EED5CA0E0D78ACD8006928CF /* ManEntry.m in Sources */,
+				EE436C4410F93BE000216B40 /* PAKTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
