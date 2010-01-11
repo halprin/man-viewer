@@ -4,12 +4,11 @@
 #import "Loader.h"
 #import "Preferences.h"
 #import "ManEntry.h"
-#import "TabCollectionView.h"
-#import "TabDropdownView.h"
+#import "PAKTableView.h"
 
 @interface ViewerManager : NSObject
 {
-    IBOutlet NSTableView* entries;
+    IBOutlet PAKTableView* entries;
     IBOutlet NSPopUpButton* filter;
     IBOutlet NSSearchField* searcher;
     IBOutlet NSTextView* viewer;
@@ -29,14 +28,15 @@
 -(void)tableViewSelectionDidChange: (NSNotification*)notification;
 -(NSString*)tableView: (NSTableView*)aTableView toolTipForCell: (NSCell*)aCell rect: (NSRectPointer)rect tableColumn: (NSTableColumn*)aTableColumn row: (NSInteger)row mouseLocation: (NSPoint)mouseLocation;
 -(void)revealInFinder: (id)sender;
+-(void)ipcSelectManPage: (NSString*)manpage withSection: (NSString*)section;
 -(void)addEntry: (NSString*)name withSection: (NSString*)section andPath: (NSString*)path;
+-(void)selectEntry: (NSString*)name withSection: (NSString*)section;
 -(void)applicationDidFinishLaunching: (NSNotification*)notification;
 -(void)applicationWillTerminate: (NSNotification*)notification;
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed: (NSApplication*)theApplication;
 -(CGFloat)splitView: (NSSplitView *)sender constrainMinCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset;
 -(CGFloat)splitView: (NSSplitView *)sender constrainMaxCoordinate: (CGFloat)proposedMin ofSubviewAt: (NSInteger)offset;
 -(IBAction)showPreferences: (id)sender;
--(void)changeTab: (NSNotification*)notification;
 -(IBAction)saveText: (id)sender;
 -(IBAction)savePDF: (id)sender;
 -(void)savePanelDidEnd: (NSSavePanel*)sheet returnCode: (int)returnCode contextInfo: (void*)contextInfo;

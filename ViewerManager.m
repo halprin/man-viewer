@@ -121,6 +121,12 @@
 	[[NSWorkspace sharedWorkspace] selectFile: [[[manlist selectedObjects] objectAtIndex: 0] path] inFileViewerRootedAtPath: nil];
 }
 
+-(void)ipcSelectManPage: (NSString*)manpage withSection: (NSString*)section
+{
+	//tell ourselves to select that man page entry
+	[self selectEntry: manpage withSection: section];
+}
+
 -(void)addEntry: (NSString*)name withSection: (NSString*)section andPath: (NSString*)path
 {
 	//this method assumes that no duplicates will be handed to it
@@ -128,11 +134,26 @@
 	[manlist addObject: newOne];
 }
 
+-(void)selectEntry: (NSString*)name withSection: (NSString*)section
+{
+	//given the passed in arguments, select that entry in the list
+	[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: name andSection: ((section!=nil)?section:@"") andPath: @""] autorelease]]];
+	//it is possible that multiple items were selected, make this just 1
+	[manlist setSelectionIndex: [manlist selectionIndex]];
+	//scroll to view the newly selected entry
+	[entries scrollRowToVisible: [manlist selectionIndex]];
+}
+
 -(void)applicationDidFinishLaunching: (NSNotification*)notification
 {
 	//set the font
 	[[viewer textStorage] setFont: [NSFont fontWithName: @"Courier" size: 12.0]];
 	//set the predicate
+	
+	//start up the IPC server
+	NSConnection* serverConnection=[NSConnection defaultConnection];
+	[serverConnection setRootObject: self];
+	[serverConnection registerName: @"PAKManViewer"];
 	
 	//load the preferences
 	NSFileManager *prefs=[NSFileManager defaultManager];
@@ -216,14 +237,18 @@
 	if([[[NSProcessInfo processInfo] arguments] count]==2)
 	{
 		NSLog(@"Auto lookup %@", [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]);
-		[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] andSection: @"" andPath: @""] autorelease]]];
+		//[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] andSection: @"" andPath: @""] autorelease]]];
 		//it is possible that multiple items were selected, make this just 1
-		[manlist setSelectionIndex: [manlist selectionIndex]];
+		//[manlist setSelectionIndex: [manlist selectionIndex]];
+		
+		[self selectEntry: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] withSection: nil];
 	}
 	else if([[[NSProcessInfo processInfo] arguments] count]==3)
 	{
 		NSLog(@"Auto lookup %@ (%@)", [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2], [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]);
-		[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2] andSection: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] andPath: @""] autorelease]]];
+		//[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2] andSection: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] andPath: @""] autorelease]]];
+		
+		[self selectEntry: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2] withSection: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]];
 	}
 }
 
@@ -269,11 +294,6 @@
 {
 	[preferences setOriginal: &searchDirectories];
 	[NSApp beginSheet: [preferences window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
-}
-
--(void)changeTab: (NSNotification*)notification
-{
-	[manlist setSelectedObjects: [NSArray arrayWithObject: [[notification object] manEntry]]];
 }
 
 -(IBAction)saveText: (id)sender
