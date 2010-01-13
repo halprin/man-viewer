@@ -25,11 +25,11 @@
 {
 	if(flag)
 	{
-		[status setStringValue: @"Loading man pages...  (cached)"];
+		[status setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"LoadingManPages" value: @"Loading man pages...  (cached)" table: nil]];
 	}
 	else
 	{
-		[status setStringValue: @"Loading man pages..."];
+		[status setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"LoadingManPages" value: @"Loading man pages..." table: nil]];
 	}
 }
 

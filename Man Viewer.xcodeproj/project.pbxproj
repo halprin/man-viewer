@@ -11,8 +11,11 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		EE0057FB10FC4180003EFEFD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0057B610FC40FE003EFEFD /* Security.framework */; };
 		EE01D7690D52E2BD00B48BEA /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7680D52E2BD00B48BEA /* Loader.m */; };
 		EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = EE01D7AC0D52E8FE00B48BEA /* Preferences.m */; };
+		EE0F270D10FD7C5200D822F6 /* IpcDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0F270C10FD7C5200D822F6 /* IpcDelegate.m */; };
+		EE0F277210FD984300D822F6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE0F277110FD984300D822F6 /* Localizable.strings */; };
 		EE37F2C110F9A6CB00DCC3EA /* manpath_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = EEADB103108EAF1300EE89D3 /* manpath_helper.c */; };
 		EE37F2D010F9A8AC00DCC3EA /* manpath_helper in Resources */ = {isa = PBXBuildFile; fileRef = EE37F2BA10F9A68800DCC3EA /* manpath_helper */; };
 		EE37F44B10F9B71E00DCC3EA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
@@ -38,7 +41,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EE37F3BA10F9B5A600DCC3EA /* manv */;
+			remoteGlobalIDString = EE37F3BA10F9B5A600DCC3EA;
 			remoteInfo = manv;
 		};
 /* End PBXContainerItemProxy section */
@@ -54,10 +57,16 @@
 		32CA4F630368D1EE00C91783 /* Man Viewer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Man Viewer_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Man Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Man Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE0057B610FC40FE003EFEFD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		EE01D7670D52E2BD00B48BEA /* Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
 		EE01D7680D52E2BD00B48BEA /* Loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loader.m; sourceTree = "<group>"; };
 		EE01D7AB0D52E8FE00B48BEA /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		EE01D7AC0D52E8FE00B48BEA /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
+		EE0F270B10FD7C5200D822F6 /* IpcDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpcDelegate.h; sourceTree = "<group>"; };
+		EE0F270C10FD7C5200D822F6 /* IpcDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IpcDelegate.m; sourceTree = "<group>"; };
+		EE0F273C10FD857800D822F6 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		EE0F276410FD95E800D822F6 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE0F277410FD986000D822F6 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE1FF8DD10F5A1DC00A217A5 /* Feature requests.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Feature requests.txt"; sourceTree = "<group>"; };
 		EE2637640D7F108500251048 /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
 		EE37F2BA10F9A68800DCC3EA /* manpath_helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = manpath_helper; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				EE0057FB10FC4180003EFEFD /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +135,7 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE0057B610FC40FE003EFEFD /* Security.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
@@ -165,6 +176,8 @@
 				EEF27B890B84BB1700802668 /* ViewerManager.m */,
 				EE01D7670D52E2BD00B48BEA /* Loader.h */,
 				EE01D7680D52E2BD00B48BEA /* Loader.m */,
+				EE0F270B10FD7C5200D822F6 /* IpcDelegate.h */,
+				EE0F270C10FD7C5200D822F6 /* IpcDelegate.m */,
 				EE37F3C910F9B69E00DCC3EA /* manpath_helper */,
 				EE37F45D10F9B79100DCC3EA /* manv */,
 			);
@@ -180,6 +193,7 @@
 				EECABAB50D52AFD800F5084A /* hex.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				EE0F277110FD984300D822F6 /* Localizable.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				EE1FF8DD10F5A1DC00A217A5 /* Feature requests.txt */,
 			);
@@ -296,6 +310,7 @@
 				EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */,
 				EE37F2D010F9A8AC00DCC3EA /* manpath_helper in Resources */,
 				EEA30DC210FAAC9100B6C4B1 /* manv in Resources */,
+				EE0F277210FD984300D822F6 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +327,7 @@
 				EE01D7AD0D52E8FE00B48BEA /* Preferences.m in Sources */,
 				EED5CA0E0D78ACD8006928CF /* ManEntry.m in Sources */,
 				EE436C4410F93BE000216B40 /* PAKTableView.m in Sources */,
+				EE0F270D10FD7C5200D822F6 /* IpcDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,8 +375,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				29B97319FDCFA39411CA2CEA /* English */,
+				EE0F273C10FD857800D822F6 /* German */,
 			);
 			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		EE0F277110FD984300D822F6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE0F276410FD95E800D822F6 /* English */,
+				EE0F277410FD986000D822F6 /* German */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

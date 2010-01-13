@@ -1,4 +1,6 @@
 #import "ViewerManager.h"
+#import <Security/Authorization.h>
+#import <Security/AuthorizationTags.h>
 
 @implementation ViewerManager
 
@@ -11,8 +13,6 @@
 		filterString=[[NSString string] retain];
 		cache=[[NSMutableArray array] retain];
 		loaded=NO;
-		//listen for changing tabs
-		//[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(changeTab:) name: @"atPAKTabChange" object: nil];
 	}
 	return self;
 }
@@ -28,7 +28,7 @@
 	//it needs to bail out or it exploes
 	if([[manlist selectedObjects] count]<1)
 	{
-		[[[viewer textStorage] mutableString] setString: @"Please select a man page from the list on the left."];
+		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"SelectManPage" value: @"Please select a man page from the list on the left." table: nil]];
 		return;
 	}
 	//scroll to the top so that once every new manpage is selected, it starts at the top
@@ -36,11 +36,6 @@
 	
 	ManEntry* entry=[[manlist selectedObjects] objectAtIndex: 0];
 	NSString* man=[entry path];
-	
-	//tell the current tab it's new man page
-	//[tabs replaceObjectAtIndex: currentTab withObject: entry];
-	//[[tabs currentTab] setManEntry: entry];
-	//[[UITabs itemAtIndex: currentTab] setTitle: [man stringByAppendingFormat: @" (%@)", section]];
 	
 	NSTask* task=[[NSTask alloc] init];
 	[task autorelease];
@@ -75,7 +70,7 @@
 	if([[error readDataToEndOfFile] length]>0 && !([data length]>0))
 	{
 		//we had an error, most likely that man page does not exist
-		[[[viewer textStorage] mutableString] setString: @"That man page does not exist!"];
+		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"ManPageNotExist" value: @"That man page does not exist!" table: nil]];
 		return;
 	}
 	
@@ -101,7 +96,7 @@
 	//actually display the stuff
 	if(contents==nil)
 	{
-		[[[viewer textStorage] mutableString] setString: @"That man page does not exist!"];
+		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"ManPageNotExist" value: @"That man page does not exist!" table: nil]];
 	}
 	else
 	{
@@ -119,12 +114,6 @@
 {
 	//the user just control/right clicked on an entry and selected Reveal in Finder from the context menu
 	[[NSWorkspace sharedWorkspace] selectFile: [[[manlist selectedObjects] objectAtIndex: 0] path] inFileViewerRootedAtPath: nil];
-}
-
--(void)ipcSelectManPage: (NSString*)manpage withSection: (NSString*)section
-{
-	//tell ourselves to select that man page entry
-	[self selectEntry: manpage withSection: section];
 }
 
 -(void)addEntry: (NSString*)name withSection: (NSString*)section andPath: (NSString*)path
@@ -151,8 +140,9 @@
 	//set the predicate
 	
 	//start up the IPC server
+	ipcDelegate=[[IpcDelegate alloc] initWithDelegate: self];
 	NSConnection* serverConnection=[NSConnection defaultConnection];
-	[serverConnection setRootObject: self];
+	[serverConnection setRootObject: ipcDelegate];
 	[serverConnection registerName: @"PAKManViewer"];
 	
 	//load the preferences
@@ -236,7 +226,7 @@
 	//supposed to be a name of a man page that is automatically selected
 	if([[[NSProcessInfo processInfo] arguments] count]==2)
 	{
-		NSLog(@"Auto lookup %@", [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]);
+		NSLog([[NSBundle mainBundle] localizedStringForKey: @"AutoLookup" value: @"Auto lookup %@" table: nil], [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]);
 		//[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] andSection: @"" andPath: @""] autorelease]]];
 		//it is possible that multiple items were selected, make this just 1
 		//[manlist setSelectionIndex: [manlist selectionIndex]];
@@ -245,7 +235,7 @@
 	}
 	else if([[[NSProcessInfo processInfo] arguments] count]==3)
 	{
-		NSLog(@"Auto lookup %@ (%@)", [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2], [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]);
+		NSLog([[NSBundle mainBundle] localizedStringForKey: @"AutoLookupSection" value: @"Auto lookup %@ (%@)" table: nil], [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2], [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]);
 		//[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2] andSection: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1] andPath: @""] autorelease]]];
 		
 		[self selectEntry: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2] withSection: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]];
@@ -294,6 +284,101 @@
 {
 	[preferences setOriginal: &searchDirectories];
 	[NSApp beginSheet: [preferences window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
+}
+
+-(IBAction)installCommandLineTools: (id)sender
+{
+	//tell the user what we are about to do
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"InstallCommandLineTool" value: @"Installing Command Line Tool" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"OK" value: @"OK" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], nil, window, self, nil, @selector(authorizeInstall:returnCode:contextInfo:), nil, [[NSBundle mainBundle] localizedStringForKey: @"CommandLineToolDescription" value: @"Man Viewer will now install manv, a command line tool, into /usr/local/bin/.  manv makes it easy to look up man pages in Man Viewer from the command line.  More details can be found in the Read Me file." table: nil]);
+}
+
+-(void)authorizeInstall: (NSWindow*)sheet returnCode: (int)returnCode contextInfo: (void*)contextInfo
+{
+	//see if the user said OK or no
+	if(returnCode==NSAlertAlternateReturn)
+	{
+		//the cancel button was pressed
+		return;
+	}
+	
+	//create the reference to the authorization "object"
+	AuthorizationRef authorization;
+	//create the authorization with no rights
+	//NULL=start with no rights
+	//kAuthorizationEmptyEnvironment=no need to specify a specialized environment so use the default
+	//kAuthorizationFlagDefaults=no special flags/options necisary
+	//&authorization=the references to the authorization reference
+	OSStatus status=AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorization);
+	
+	//check if the above action was allowed and sucessful
+	if(status!=errAuthorizationSuccess)
+	{
+		//access denied!
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"AuthorizationDenied" value: @"Authorization denied!" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"OK" value: @"OK" table: nil], nil, nil, window, self, nil, nil, nil, [[NSBundle mainBundle] localizedStringForKey: @"ManvNotInstalled" value: @"manv was not installed." table: nil]);
+		return;
+	}
+	
+	//create a single right item
+	//kAuthorizationRightExecute=the name of the right we want, which is able to execute something
+	//0=the length of the value which is the next argument
+	//NULL=no value specified, but some of the documentation says to use the path of the program you want to execute
+	//0=default and only setting for flags, seem to be some reserved option bits for Apple
+	AuthorizationItem item={kAuthorizationRightExecute, 0, NULL, 0};
+	//create a auth right request with the above right
+	AuthorizationRights right={1, &item};
+	//set the flags to have it so that we have the default, we allow user interaction, and preauthorize the extended rights
+	AuthorizationFlags flags=kAuthorizationFlagDefaults|kAuthorizationFlagInteractionAllowed|kAuthorizationFlagPreAuthorize|kAuthorizationFlagExtendRights;
+	
+	//now ask for the rights
+	//authorization=again referencing the reference so this function knows what it is dealing with
+	//&right=tell the function what rights we want
+	//kAuthorizationEmptyEnvironment=again, we don't need a special environment
+	//flags=tells the function what kind of options we want along with the request
+	//NULL=aparently we don't care about the actual granted rights and assume we get them
+	status=AuthorizationCopyRights(authorization, &right, kAuthorizationEmptyEnvironment, flags, NULL);
+	
+	//check if the above action was allowed and sucessful
+	if(status!=errAuthorizationSuccess)
+	{
+		//access denied!
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"AuthorizationDenied" value: @"Authorization denied!" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"OK" value: @"OK" table: nil], nil, nil, window, self, nil, nil, nil, [[NSBundle mainBundle] localizedStringForKey: @"ManvNotInstalled" value: @"manv was not installed." table: nil]);
+		return;
+	}
+	
+	//now we call the outside program to do the actual copy
+	
+	//specify the arguments that we will pass to cp
+	char* arguments[]={[[[NSBundle mainBundle] pathForResource: @"manv" ofType: @""] cStringUsingEncoding: NSISOLatin1StringEncoding], "/usr/local/bin/", NULL};
+	//authorization=the authorization reference so this function knows what we are talking about
+	//"/bin/cp"=the full path to the UNIX copy program
+	//kAuthorizationFlagDefaults=wwe don't need any special flags so specify the default
+	//arguments=pass in the agruments to the cp program
+	//NULL=we don't care about getting output back from cp
+	status=AuthorizationExecuteWithPrivileges(authorization, "/bin/cp", kAuthorizationFlagDefaults, arguments, NULL);
+	
+	//check if the above action was allowed and sucessful
+	if(status!=errAuthorizationSuccess)
+	{
+		//access denied!
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"AuthorizationDenied" value: @"Authorization denied!" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"OK" value: @"OK" table: nil], nil, nil, window, self, nil, nil, nil, [[NSBundle mainBundle] localizedStringForKey: @"ManvNotInstalled" value: @"manv was not installed." table: nil]);
+		return;
+	}
+	
+	//everything worked and we are done, clean up
+	//authorization=tell this function which auth to close up
+	//kAuthorizationFlagDestroyRights=no special flags needed
+	status=AuthorizationFree(authorization, kAuthorizationFlagDefaults);
+	
+	//check if the above action was successful
+	if(status!=errAuthorizationSuccess)
+	{
+		//we are boned!  Why couldn't the free command just do what it's told!  Just kill it!
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"AuthorizationDenied" value: @"Authorization denied!" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"OK" value: @"OK" table: nil], nil, nil, window, self, nil, nil, nil, [[NSBundle mainBundle] localizedStringForKey: @"ManvNotInstalled" value: @"manv was not installed." table: nil]);
+		return;
+	}
+	
+	//everything truely worked!
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"ManvInstalled" value: @"manv Installed Successfully" table: nil], [[NSBundle mainBundle] localizedStringForKey: @"OK" value: @"OK" table: nil], nil, nil, window, self, nil, nil, nil, [[NSBundle mainBundle] localizedStringForKey: @"ManvInstalledDescription" value: @"manv was installed /usr/local/bin/.  You can now use manv directly from the Terminal.\nUsage:  manv [section] manpage" table: nil]);
 }
 
 -(IBAction)saveText: (id)sender
@@ -619,9 +704,9 @@
 -(void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[ipcDelegate release];
 	[searchDirectories release];
 	[cache release];
-	//[tabs release];
 	[searchString release];
 	[filterString release];
 	[super dealloc];
