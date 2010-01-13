@@ -7,35 +7,17 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>addTab</key>
-				<string>id</string>
 				<key>newSelection</key>
-				<string>TabView</string>
-				<key>nextTab</key>
-				<string>id</string>
-				<key>previousTab</key>
-				<string>id</string>
-				<key>tabToBeRemoved</key>
 				<string>TabView</string>
 			</dict>
 			<key>CLASS</key>
 			<string>TabCollectionView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>dropdown</key>
-				<string>TabDropdownView</string>
-			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSView</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>itemSelected</key>
-				<string>NSMenuItem</string>
-			</dict>
 			<key>CLASS</key>
 			<string>TabDropdownView</string>
 			<key>LANGUAGE</key>
@@ -52,11 +34,6 @@
 			<string>NSObject</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>closeSelf</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
 			<string>TabView</string>
 			<key>LANGUAGE</key>
@@ -132,11 +109,15 @@
 				<string>id</string>
 				<key>filter</key>
 				<string>id</string>
+				<key>installCommandLineTools</key>
+				<string>id</string>
 				<key>newTab</key>
 				<string>id</string>
 				<key>nextTab</key>
 				<string>id</string>
 				<key>previousTab</key>
+				<string>id</string>
+				<key>revealInFinder</key>
 				<string>id</string>
 				<key>savePDF</key>
 				<string>id</string>
@@ -158,7 +139,7 @@
 				<key>dropdown</key>
 				<string>TabDropdownView</string>
 				<key>entries</key>
-				<string>NSTableView</string>
+				<string>PAKTableView</string>
 				<key>filter</key>
 				<string>NSPopUpButton</string>
 				<key>loader</key>

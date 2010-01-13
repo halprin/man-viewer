@@ -1,3 +1,14 @@
+//
+//  manpath_helper.c
+//  Man Viewer
+//
+//  This code is never compiled into the actual Man Viewer application.
+//  It is a helper program to be installed into /usr/local/bin so it is easy for a user to open Man Viewer with a specified manpage.
+//
+//  Created by Peter Kendall on 1/10/10.
+//  Copyright 2010 @PAK Software. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
@@ -32,12 +43,18 @@ int main(int argc, const char* argv[])
 	{
 		//we should never get to this point in code
 		//if so, bomb out
-		NSLog(@"Unexpected illegal path encountered.  Quitting!");
+		NSLog(@"Unexpected illegal execution path encountered.  Quitting!");
 		return -2;
 	}
 	
 	//launch Man Viewer
-	[[NSWorkspace sharedWorkspace] launchApplication: @"Man Viewer"];
+	BOOL success=[[NSWorkspace sharedWorkspace] launchApplication: @"Man Viewer"];
+	if(!success)
+	{
+		//the launch failed
+		NSLog(@"Man Viewer failed to launch.  Quitting!");
+		return -3;
+	}
 	
 	//continue to ask for the proxy of the specified name until we get it (and therefore not nil)
 	while((proxy=[NSConnection rootProxyForConnectionWithRegisteredName: @"PAKManViewer" host: nil])==nil);
