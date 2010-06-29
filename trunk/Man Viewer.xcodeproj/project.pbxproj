@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -22,6 +21,7 @@
 		EE37F44C10F9B71E00DCC3EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE37F45C10F9B78000DCC3EA /* manv.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37F45B10F9B78000DCC3EA /* manv.m */; };
 		EE436C4410F93BE000216B40 /* PAKTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436C4310F93BE000216B40 /* PAKTableView.m */; };
+		EE5D4B7211D98B2900E05A70 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE5D4B7011D98B2900E05A70 /* MainMenu.xib */; };
 		EEA30DC210FAAC9100B6C4B1 /* manv in Resources */ = {isa = PBXBuildFile; fileRef = EE37F3BB10F9B5A600DCC3EA /* manv */; };
 		EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = EEB3AAEA0D7E4B9E009C79FA /* Credits.html */; };
 		EECABAB60D52AFD800F5084A /* hex.icns in Resources */ = {isa = PBXBuildFile; fileRef = EECABAB50D52AFD800F5084A /* hex.icns */; };
@@ -51,7 +51,6 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Man Viewer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Man Viewer_Prefix.pch"; sourceTree = "<group>"; };
@@ -64,7 +63,6 @@
 		EE01D7AC0D52E8FE00B48BEA /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
 		EE0F270B10FD7C5200D822F6 /* IpcDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpcDelegate.h; sourceTree = "<group>"; };
 		EE0F270C10FD7C5200D822F6 /* IpcDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IpcDelegate.m; sourceTree = "<group>"; };
-		EE0F273C10FD857800D822F6 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		EE0F276410FD95E800D822F6 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE0F277410FD986000D822F6 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE1FF8DD10F5A1DC00A217A5 /* Feature requests.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Feature requests.txt"; sourceTree = "<group>"; };
@@ -74,6 +72,8 @@
 		EE37F45B10F9B78000DCC3EA /* manv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = manv.m; sourceTree = "<group>"; };
 		EE436C4210F93BE000216B40 /* PAKTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAKTableView.h; sourceTree = "<group>"; };
 		EE436C4310F93BE000216B40 /* PAKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAKTableView.m; sourceTree = "<group>"; };
+		EE5D4B7111D98B2900E05A70 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		EE5D4B7311D98B3500E05A70 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		EE77BD1B0D7F50320011FEE4 /* Man Viewer.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Man Viewer.dmg"; sourceTree = "<group>"; };
 		EEADB103108EAF1300EE89D3 /* manpath_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = manpath_helper.c; sourceTree = "<group>"; };
 		EEB3AAEA0D7E4B9E009C79FA /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				EE0F277110FD984300D822F6 /* Localizable.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				EE5D4B7011D98B2900E05A70 /* MainMenu.xib */,
 				EE1FF8DD10F5A1DC00A217A5 /* Feature requests.txt */,
 			);
 			name = Resources;
@@ -304,13 +304,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				EECABAB60D52AFD800F5084A /* hex.icns in Resources */,
 				EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */,
 				EE37F2D010F9A8AC00DCC3EA /* manpath_helper in Resources */,
 				EEA30DC210FAAC9100B6C4B1 /* manv in Resources */,
 				EE0F277210FD984300D822F6 /* Localizable.strings in Resources */,
+				EE5D4B7211D98B2900E05A70 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,15 +371,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
-				EE0F273C10FD857800D822F6 /* German */,
-			);
-			name = MainMenu.nib;
-			sourceTree = "<group>";
-		};
 		EE0F277110FD984300D822F6 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -387,6 +378,15 @@
 				EE0F277410FD986000D822F6 /* German */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		EE5D4B7011D98B2900E05A70 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE5D4B7111D98B2900E05A70 /* English */,
+				EE5D4B7311D98B3500E05A70 /* German */,
+			);
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

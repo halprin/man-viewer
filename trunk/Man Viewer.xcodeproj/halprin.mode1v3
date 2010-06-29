@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -281,7 +279,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {186, 447}}</string>
+							<string>{{0, 68}, {186, 447}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -345,6 +343,8 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -381,9 +381,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>EE5D4B3011D9873E00E05A70</string>
+				<string>EE5D4B6D11D98B1100E05A70</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>EE5D4B3111D9873E00E05A70</string>
+				<string>EE5D4B6E11D98B1100E05A70</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -517,6 +517,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>EE35A98C0D53CA850070C955</string>
 		<string>/Users/halprin/Desktop/Peter/Studio Stuff/Programming/Cocoa/Man Viewer/Man Viewer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -719,13 +720,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>EE43845811D861CB00C28E4C</string>
+				<string>EE5D4B4811D98A0100E05A70</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>EE43845911D861CB00C28E4C</string>
-				<string>EE43845A11D861CB00C28E4C</string>
-				<string>EE43845B11D861CB00C28E4C</string>
-				<string>EE43845C11D861CB00C28E4C</string>
-				<string>EE43845D11D861CB00C28E4C</string>
+				<string>EE5D4B4911D98A0100E05A70</string>
+				<string>EE5D4B4A11D98A0100E05A70</string>
+				<string>EE5D4B4B11D98A0100E05A70</string>
+				<string>EE5D4B4C11D98A0100E05A70</string>
+				<string>EE5D4B4D11D98A0100E05A70</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -980,7 +981,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {664, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>755 601 664 448 0 0 1920 1178 </string>
+								<string>620 575 664 448 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -998,7 +999,7 @@
 								<dict>
 									<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 									<array>
-										<real>180</real>
+										<real>66</real>
 										<real>56</real>
 										<real>63</real>
 										<real>60</real>
@@ -1027,7 +1028,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {664, 402}}</string>
 								<key>RubberWindowFrame</key>
-								<string>755 601 664 448 0 0 1920 1178 </string>
+								<string>620 575 664 448 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXCVSModule</string>
@@ -1050,18 +1051,18 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>EE35A98C0D53CA850070C955</string>
-				<string>EE0F5AFE10FDA6B2006D6D34</string>
+				<string>EE5D4B6F11D98B1100E05A70</string>
 				<string>1C78EAB2065D492600B07095</string>
 				<string>1CD052920623707200166675</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.scm</string>
 			<key>WindowString</key>
-			<string>755 601 664 448 0 0 1920 1178 </string>
+			<string>620 575 664 448 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>EE35A98C0D53CA850070C955</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
