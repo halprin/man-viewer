@@ -22,4 +22,4 @@
 "AuthorizationDenied"="Genehmigung verweigert!";
 "ManvNotInstalled"="manv wurde nicht installiert.";
 "ManvInstalled"="manv Erfolgreich Installiert";
-"ManvInstalledDescription"="manv installiert wurde /usr/local/bin/.  Sie können nun manv direkt aus dem Terminal.\nNutzung:  manv [Abschnitt] man-Seite";
+"ManvInstalledDescription"="manv installiert wurde /usr/local/bin/.  Sie können nun manv direkt aus dem Terminal.\nNutzung:  $ manv [Abschnitt] man-Seite";

@@ -4,7 +4,6 @@
 * Tabs
 * Get the text in  the viewer to not have arbitrary new lines inserted in the man page but wrap instead
 * Add other language localizations
-	* German
 	* Spanish
 	* French
 * Use User Defaults to their fullest
