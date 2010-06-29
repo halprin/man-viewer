@@ -275,6 +275,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>23</integer>
+									<integer>15</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -298,7 +300,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>504 519 801 506 0 0 1920 1178 </string>
+						<string>197 580 801 506 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -335,7 +337,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {593, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>504 519 801 506 0 0 1920 1178 </string>
+								<string>197 580 801 506 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -355,7 +357,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {593, 460}}</string>
 								<key>RubberWindowFrame</key>
-								<string>504 519 801 506 0 0 1920 1178 </string>
+								<string>197 580 801 506 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -379,9 +381,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>EE0F5B0110FDA6B4006D6D34</string>
+				<string>EE5D4B3011D9873E00E05A70</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>EE0F5B0210FDA6B4006D6D34</string>
+				<string>EE5D4B3111D9873E00E05A70</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -515,12 +517,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>EE35A98C0D53CA850070C955</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/halprin/Desktop/Peter/Studio Stuff/Programming/Cocoa/Man Viewer/Man Viewer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>504 519 801 506 0 0 1920 1178 </string>
+	<string>197 580 801 506 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -541,7 +541,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>&lt;No Editor&gt;</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -599,7 +599,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>EECABAAC0D5284FF00F5084A</string>
-				<string>EE0F272410FD823C00D822F6</string>
+				<string>EEBF678C10FEB52600AFC609</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -719,13 +719,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>EE0F5AF710FDA6B2006D6D34</string>
+				<string>EE43845811D861CB00C28E4C</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>EE0F5AF810FDA6B2006D6D34</string>
-				<string>EE0F5AF910FDA6B2006D6D34</string>
-				<string>EE0F5AFA10FDA6B2006D6D34</string>
-				<string>EE0F5AFB10FDA6B2006D6D34</string>
-				<string>EE0F5AFC10FDA6B2006D6D34</string>
+				<string>EE43845911D861CB00C28E4C</string>
+				<string>EE43845A11D861CB00C28E4C</string>
+				<string>EE43845B11D861CB00C28E4C</string>
+				<string>EE43845C11D861CB00C28E4C</string>
+				<string>EE43845D11D861CB00C28E4C</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -879,7 +879,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>EE0F272B10FD823C00D822F6</string>
+				<string>EEBF679310FEB52600AFC609</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
