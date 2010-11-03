@@ -56,7 +56,7 @@
 	{
 		[subtractButton setEnabled: YES];
 	}
-	[[NSNotificationCenter defaultCenter] postNotificationName: @"NSControlTextDidChangeNotification" object: adder];
+	[[NSNotificationCenter defaultCenter] postNotificationName: NSControlTextDidChangeNotification object: adder];
 }
 
 -(IBAction)delete:(id)sender

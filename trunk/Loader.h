@@ -17,5 +17,6 @@
 }
 -(NSWindow*)window;
 -(NSProgressIndicator*)progressBar;
+-(void)incrementProgressBarBy: (NSNumber*)delta;
 -(void)loadedFromCache: (BOOL)flag;
 @end

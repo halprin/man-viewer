@@ -6,8 +6,8 @@
    Copyright 2010 @PAK Software. All rights reserved.
  */
 
-"LoadingManPages"="Laden man Seiten...  (zwischengespeichert)";
-"LoadingManPagesCached"="Laden man Seiten...";
+"LoadingManPages"="Laden man Seiten...";
+"LoadingManPagesCached"="Laden man Seiten...  (zwischengespeichert)";
 
 "SelectManPage"="Bitte wählen Sie eine man-Seite aus der Liste auf der linken Seite.";
 "ManPageNotExist"="Daß man-Seite existiert nicht!";
