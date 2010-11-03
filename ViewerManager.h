@@ -7,6 +7,8 @@
 #import "PAKTableView.h"
 #import "IpcDelegate.h"
 
+static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoaded";
+
 @interface ViewerManager : NSObject
 {
     IBOutlet PAKTableView* entries;
@@ -44,6 +46,7 @@
 -(IBAction)search: (id)sender;
 -(IBAction)filter: (id)sender;
 -(IBAction)update: (id)sender;
+-(void)loadManPages: (BOOL)cached;
 -(void)loadFromCache;
 -(void)loadFromDisk;
 -(void)dealloc;

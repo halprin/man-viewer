@@ -21,11 +21,16 @@
 	return progress;
 }
 
+-(void)incrementProgressBarBy: (NSNumber*)delta
+{
+	[[self progressBar] incrementBy: [delta doubleValue]];
+}
+
 -(void)loadedFromCache: (BOOL)flag
 {
 	if(flag)
 	{
-		[status setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"LoadingManPages" value: @"Loading man pages...  (cached)" table: nil]];
+		[status setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"LoadingManPagesCached" value: @"Loading man pages...  (cached)" table: nil]];
 	}
 	else
 	{

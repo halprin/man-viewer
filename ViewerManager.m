@@ -2,6 +2,7 @@
 #import <Security/Authorization.h>
 #import <Security/AuthorizationTags.h>
 
+
 @implementation ViewerManager
 
 -(ViewerManager*)init
@@ -120,7 +121,8 @@
 {
 	//this method assumes that no duplicates will be handed to it
 	ManEntry* newOne=[[[ManEntry alloc] initWithName: name andSection: section andPath: path] autorelease];
-	[manlist addObject: newOne];
+	//[manlist addObject: newOne];
+	[manlist performSelectorOnMainThread: @selector(addObject:) withObject: newOne waitUntilDone: YES];
 }
 
 -(void)selectEntry: (NSString*)name withSection: (NSString*)section
@@ -188,10 +190,8 @@
 		cache=[[NSMutableArray array] retain];
 	}
 	
-	//show the loader sheet
-	[[loader progressBar] setUsesThreadedAnimation: YES];
-	[[loader progressBar] startAnimation: self];
-	[NSApp beginSheet: [loader window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
+	//set ourselves up for listening for the notification when the man pages are fully loaded
+	[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(finishApplicationLoad) name: PKNotificationManPagesLoaded object: self];
 	
 	//do we want to force a load from the disk?
 	CGEventRef event=CGEventCreate(NULL);
@@ -202,7 +202,7 @@
 	if(cache!=nil && [cache count]>0 && !(mods & kCGEventFlagMaskCommand) && preferencesVersion!=nil && [preferencesVersion isEqualToString: version])
 	{
 		//the cache exists, has at least one item, or was not forced to load from disk; so load from cache
-		[self loadFromCache];
+		[self loadManPages: YES];
 	}
 	else
 	{
@@ -210,18 +210,15 @@
 		[cache autorelease];
 		cache=[[NSMutableArray array] retain];
 		//now do the heavy lifting to read in the man pages
-		[self loadFromDisk];
+		[self loadManPages: NO];
 	}
 	
 	//destroy the event that tests if the command key was pressed
 	CFRelease(event);
-	
-	//dismiss the loader sheet
-	[[loader window] orderOut: self];
-	[NSApp endSheet: [loader window] returnCode: 0];
-	[[loader progressBar] stopAnimation: self];
-	loaded=YES;
-	
+}
+
+-(void)finishApplicationLoad
+{
 	//test if any command arguments were passed to this Cocoa application
 	//supposed to be a name of a man page that is automatically selected
 	if([[[NSProcessInfo processInfo] arguments] count]==2)
@@ -240,6 +237,18 @@
 		
 		[self selectEntry: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 2] withSection: [[[NSProcessInfo processInfo] arguments] objectAtIndex: 1]];
 	}
+	
+	//remove ourselves from listening to this notification since we are done loading
+	[[NSNotificationCenter defaultCenter] removeObserver: self name: PKNotificationManPagesLoaded object: self];
+}
+
+-(void)dismissLoader
+{
+	//dismiss the loader sheet
+	[[loader window] orderOut: self];
+	[NSApp endSheet: [loader window] returnCode: 0];
+	[[loader progressBar] stopAnimation: self];
+	loaded=YES;
 }
 
 -(void)applicationWillTerminate: (NSNotification*)notification
@@ -494,33 +503,77 @@
 
 -(IBAction)update: (id)sender
 {
-	loaded=NO;
+	//force a clearing of the cache and reload from disk
+	[self loadManPages: NO];
+}
+
+-(void)loadManPages: (BOOL)cached
+{
+	//clear the list
+	[[manlist content] removeAllObjects];
+	
 	//show the loader sheet
+	[[loader progressBar] setUsesThreadedAnimation: YES];
 	[[loader progressBar] startAnimation: self];
 	[NSApp beginSheet: [loader window] modalForWindow: window modalDelegate: self didEndSelector: nil contextInfo: nil];
 	
-	//force a clearing of the cache and reload from disk
-	[self loadFromDisk];
+	if(cached)
+	{
+		//set the status correctly whether we are loading from cache or not
+		[loader loadedFromCache: YES];
+		//set up the progress bar
+		[[loader progressBar] setDoubleValue: 0.0];
+		[[loader progressBar] setMaxValue: 20];
+		[window display];
+		[[loader window] display];
+		
+		//Worker thread
+		[NSThread detachNewThreadSelector: @selector(loadFromCache) toTarget: self withObject: nil];
+	}
+	else
+	{
+		//set the status correctly whether we are loading from cache or not
+		[loader loadedFromCache: NO];
+		//set up the progress bar
+		[[loader progressBar] setDoubleValue: 0.0];
+		[[loader progressBar] setMaxValue: 11*[searchDirectories count]+(11*[searchDirectories count])*.5];
+		[window display];
+		[[loader window] display];
+		
+		//clear the previous cache
+		[cache removeAllObjects];
+		
+		//Worker thread
+		[NSThread detachNewThreadSelector: @selector(loadFromDisk) toTarget: self withObject: nil];
+	}
+}
+
+-(void)finishManPagesLoad
+{
+	//update the progress bar
+	[[loader progressBar] setDoubleValue: [[loader progressBar] maxValue]];
+	
+	//set the sort type
+	NSSortDescriptor* sorter=[[NSSortDescriptor alloc] initWithKey: @"name" ascending: YES selector: @selector(caseInsensitiveCompare:)];
+	[sorter autorelease];
+	[manlist setSortDescriptors: [NSArray arrayWithObject: sorter]];
+	
+	[manlist rearrangeObjects];
 	
 	//dismiss the loader sheet
-	[[loader window] orderOut: self];
-	[NSApp endSheet: [loader window] returnCode: 0];
-	[[loader progressBar] stopAnimation: self];
-	loaded=YES;
+	[self dismissLoader];
+	
+	//send out the notification that we are done loading man pages
+	[[NSNotificationCenter defaultCenter] postNotificationName: PKNotificationManPagesLoaded object: self];
 }
 
 -(void)loadFromCache
 {
+	//NSAutoreleasePool for the seperate thread
+	NSAutoreleasePool* pool=[[NSAutoreleasePool alloc] init];
+	
 	//cache is assumed to not have any duplicates because it will be created without any duplicates
-	//set the status correctly whether we are loading from cache or not
-	[loader loadedFromCache: YES];
-	[[manlist content] removeAllObjects];
-	//set up the progress bar
-	[[loader progressBar] setDoubleValue: 0.0];
-	[[loader progressBar] setMaxValue: 20];
 	int twentieths=[cache count]/20;
-	[window display];
-	[[loader window] display];
 	
 	//iterate through the cache
 	int count=0;
@@ -533,37 +586,19 @@
 		if(count%twentieths==0)
 		{
 			//update the progress bar
-			[[loader progressBar] incrementBy: 1.0];
-			[[loader progressBar] display];
+			[loader performSelectorOnMainThread: @selector(incrementProgressBarBy:) withObject: [NSNumber numberWithDouble: 1.0] waitUntilDone: YES];
 		}
 	}
 	
-	//update the progress bar
-	[[loader progressBar] setDoubleValue: [[loader progressBar] maxValue]];
-	[[loader window] display];
+	[self performSelectorOnMainThread: @selector(finishManPagesLoad) withObject: nil waitUntilDone: NO];
 	
-	//set the sort type
-	NSSortDescriptor* sorter=[[NSSortDescriptor alloc] initWithKey: @"name" ascending: YES selector: @selector(caseInsensitiveCompare:)];
-	[sorter autorelease];
-	[manlist setSortDescriptors: [NSArray arrayWithObject: sorter]];
-	
-	[manlist rearrangeObjects];
+	[pool drain];
 }
 
 -(void)loadFromDisk
 {
-	//set the status correctly whether we are loading from cache or not
-	[loader loadedFromCache: NO];
-	//clear the list
-	[[manlist content] removeAllObjects];
-	//set up the progress bar
-	[[loader progressBar] setDoubleValue: 0.0];
-	[[loader progressBar] setMaxValue: 11*[searchDirectories count]+(11*[searchDirectories count])*.5];
-	[window display];
-	[[loader window] display];
-	
-	//clear the previous cache
-	[cache removeAllObjects];
+	//NSAutoreleasePool for the seperate thread
+	NSAutoreleasePool* pool=[[NSAutoreleasePool alloc] init];
 	
 	//get the hashmap ready that will "automatically" filter duplicates
 	NSMutableDictionary* hashmap=[NSMutableDictionary dictionary];
@@ -663,8 +698,7 @@
 				}
 			}
 			//update the progress bar
-			[[loader progressBar] incrementBy: 1.0];
-			[[loader progressBar] display];
+			[loader performSelectorOnMainThread: @selector(incrementProgressBarBy:) withObject: [NSNumber numberWithDouble: 1.0] waitUntilDone: YES];
 		}
 	}
 	
@@ -684,21 +718,13 @@
 		if(count%fraction==0)
 		{
 			//update the progress bar
-			[[loader progressBar] incrementBy: 1.0];
-			[[loader progressBar] display];
+			[loader performSelectorOnMainThread: @selector(incrementProgressBarBy:) withObject: [NSNumber numberWithDouble: 1.0] waitUntilDone: YES];
 		}
 	}
 	
-	//update the progress bar
-	[[loader progressBar] setDoubleValue: [[loader progressBar] maxValue]];
-	[[loader window] display];
+	[self performSelectorOnMainThread: @selector(finishManPagesLoad) withObject: nil waitUntilDone: NO];
 	
-	//set the sort type
-	NSSortDescriptor* sorter=[[NSSortDescriptor alloc] initWithKey: @"name" ascending: YES selector: @selector(caseInsensitiveCompare:)];
-	[sorter autorelease];
-	[manlist setSortDescriptors: [NSArray arrayWithObject: sorter]];
-	
-	[manlist rearrangeObjects];
+	[pool drain];
 }
 
 -(void)dealloc
