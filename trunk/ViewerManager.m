@@ -32,7 +32,7 @@
 	//it needs to bail out or it exploes
 	if([[manlist selectedObjects] count]<1)
 	{
-		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"SelectManPage" value: @"Please select a man page from the list on the left." table: nil]];
+		//don't change the text because just because we "selected" nothing, doesn't mean the user doesn't want to keep looking at the current man page
 		return;
 	}
 	//scroll to the top so that once every new manpage is selected, it starts at the top
