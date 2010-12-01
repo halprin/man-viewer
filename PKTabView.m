@@ -27,8 +27,8 @@
 		//set myself up to emit notifications on me changing my frame
 		[self setPostsFrameChangedNotifications: YES];
 		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(frameResized:) name: NSViewFrameDidChangeNotification object: self];
-		//add the default tab
-		[self addTabWithTitle: @"Untitled"];
+		//bellow is supposed to commented out.  For some reasonwhen I add a tab from the constructor, the NSTrackingArea that is generated for this first tab does not work since it shows up about a tab and a half above where the tab really is
+		//[self addTabWithTitle: @"Untitled"];
 	}
 	
 	return self;
