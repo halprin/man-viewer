@@ -181,6 +181,8 @@
 	
 	//set up the delegate for the tab bar
 	[tabBar setDelegate: self];
+	//add the default first tab
+	[tabBar addTabWithTitle: @"Untitled"];
 	//start up the IPC server
 	ipcDelegate=[[IpcDelegate alloc] initWithDelegate: self];
 	NSConnection* serverConnection=[NSConnection defaultConnection];
