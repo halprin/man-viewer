@@ -15,9 +15,9 @@
 {
 	if(self=[super init])
 	{
-		[self setName: @"pak"];
-		[self setSection: @"33"];
-		[self setPath: @"path"];
+		[self setName: @""];
+		[self setSection: @""];
+		[self setPath: @""];
 	}
 	return self;
 }

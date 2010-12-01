@@ -6,6 +6,8 @@
 #import "ManEntry.h"
 #import "PAKTableView.h"
 #import "IpcDelegate.h"
+#import "PKTabView.h"
+
 
 static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoaded";
 
@@ -19,19 +21,25 @@ static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoad
 	IBOutlet Loader* loader;
 	IBOutlet Preferences* preferences;
 	IBOutlet NSArrayController* manlist;
+	NSMutableArray* tabManList;
 	NSMutableArray *searchDirectories;
 	BOOL loaded;
 	NSString* searchString;
 	NSString* filterString;
 	NSMutableArray* cache;  //a list of all the man entries
 	IpcDelegate* ipcDelegate;
+	IBOutlet PKTabView* tabBar;
+	IBOutlet NSMenuItem* closeWindowMenuItem;
+	IBOutlet NSMenuItem* closeTabMenuItem;
 }
 -(ViewerManager*)init;
 -(void)tableViewSelectionDidChange: (NSNotification*)notification;
+-(void)displayManPageFromManEntry: (ManEntry*)entry;
 -(NSString*)tableView: (NSTableView*)aTableView toolTipForCell: (NSCell*)aCell rect: (NSRectPointer)rect tableColumn: (NSTableColumn*)aTableColumn row: (NSInteger)row mouseLocation: (NSPoint)mouseLocation;
 -(void)revealInFinder: (id)sender;
 -(void)addEntry: (NSString*)name withSection: (NSString*)section andPath: (NSString*)path;
 -(void)selectEntry: (NSString*)name withSection: (NSString*)section;
+-(void)selectEntry: (ManEntry*)entry;
 -(void)applicationDidFinishLaunching: (NSNotification*)notification;
 -(void)applicationWillTerminate: (NSNotification*)notification;
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed: (NSApplication*)theApplication;
@@ -45,6 +53,10 @@ static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoad
 -(void)savePanelDidEnd: (NSSavePanel*)sheet returnCode: (int)returnCode contextInfo: (void*)contextInfo;
 -(IBAction)search: (id)sender;
 -(IBAction)filter: (id)sender;
+-(IBAction)newTab: (id)sender;
+-(IBAction)closeTab: (id)sender;
+-(IBAction)nextTab: (id)sender;
+-(IBAction)previousTab: (id)sender;
 -(IBAction)update: (id)sender;
 -(void)loadManPages: (BOOL)cached;
 -(void)loadFromCache;
