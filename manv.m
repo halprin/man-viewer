@@ -30,8 +30,8 @@ int main(int argc, const char* argv[])
 	{
 		//we have either too little or too many command line arguments
 		//quit
-		NSLog([languageStrings valueForKey: @"IncorrectArguments"]);
-		NSLog([languageStrings valueForKey: @"Usage"]);
+		NSLog(@"%@", [languageStrings valueForKey: @"IncorrectArguments"]);
+		NSLog(@"%@", [languageStrings valueForKey: @"Usage"]);
 		return -1;
 	}
 	else if(argc==2)
@@ -49,7 +49,7 @@ int main(int argc, const char* argv[])
 	{
 		//we should never get to this point in code
 		//if so, bomb out
-		NSLog([languageStrings valueForKey: @"IllegalPath"]);
+		NSLog(@"%@", [languageStrings valueForKey: @"IllegalPath"]);
 		return -2;
 	}
 	
@@ -58,7 +58,7 @@ int main(int argc, const char* argv[])
 	if(!success)
 	{
 		//the launch failed
-		NSLog([languageStrings valueForKey: @"FailedLaunch"]);
+		NSLog(@"%@", [languageStrings valueForKey: @"FailedLaunch"]);
 		return -3;
 	}
 	

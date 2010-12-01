@@ -2,7 +2,7 @@
 	* Remember viewing history with forward and back
 * Inlined search similar to Safari
 * Tabs
-* Get the text in  the viewer to not have arbitrary new lines inserted in the man page but wrap instead
+* Get the text in the viewer to not have arbitrary new lines inserted in the man page but wrap instead
 * Add other language localizations
 	* Spanish
 	* French

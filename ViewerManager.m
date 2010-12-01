@@ -9,6 +9,9 @@
 {
 	if(self=[super init])
 	{
+		tabManList=[[NSMutableArray array] retain];
+		//add the first tab model since there is one by default
+		[tabManList addObject: [[ManEntry alloc] init]];
 		searchDirectories=[[NSMutableArray array] retain];
 		searchString=[[NSString string] retain];
 		filterString=[[NSString string] retain];
@@ -35,73 +38,97 @@
 	//scroll to the top so that once every new manpage is selected, it starts at the top
 	[viewer scrollRangeToVisible: NSMakeRange(0, 0)];
 	
+	//get the ManEntry
 	ManEntry* entry=[[manlist selectedObjects] objectAtIndex: 0];
-	NSString* man=[entry path];
 	
-	NSTask* task=[[NSTask alloc] init];
-	[task autorelease];
-	[task setLaunchPath: @"/usr/bin/man"];
-	//set the arguments and the output pipe
-	[task setArguments: [NSArray arrayWithObjects: man, nil]];
-	[task setStandardOutput: [NSPipe pipe]];
-	[task setStandardError: [NSPipe pipe]];
-	NSFileHandle* file=[[task standardOutput] fileHandleForReading];
-	NSFileHandle* error=[[task standardError] fileHandleForReading];
-	[task launch];
-	//get the output
-	//This parsing/splitting of the data is because of some of the man pages are so large, they choke up col.  We split it up in 131,072 byte sets.  Most man pages should fit in just one of these sets.
-	NSMutableArray* encodedMan=[NSMutableArray array];
-	NSData* data=[file readDataToEndOfFile];
-	int dataOffset;
-	int end=131072;
-	if([data length]<end)
-	{
-		end=[data length];
-	}
-	for(dataOffset=0; dataOffset<[data length]; dataOffset+=131072)
-	{
-		if(dataOffset+end>[data length])
-		{
-			end=[data length]-dataOffset;
-		}
-		NSRange range={dataOffset, end};
-		[encodedMan addObject: [data subdataWithRange: range]];
-	}
-	//check if we had an error
-	if([[error readDataToEndOfFile] length]>0 && !([data length]>0))
-	{
-		//we had an error, most likely that man page does not exist
-		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"ManPageNotExist" value: @"That man page does not exist!" table: nil]];
-		return;
-	}
+	//change the current tab title
+	[tabManList replaceObjectAtIndex: [tabBar selectedTabIndex] withObject: entry];
+	[tabBar setSelectedTabTitle: [NSString stringWithFormat: @"%@ (%@)", [entry name], [entry section]]];
 	
-	//call /usr/bin/col for each 131,072 bytes of data because for any larger data, col crashes.
-	NSMutableArray* contents=[NSMutableArray array];
-	for(NSData* writeData in encodedMan)
+	//actually display the manual
+	[self displayManPageFromManEntry: entry];
+}
+
+-(void)displayManPageFromManEntry: (ManEntry*)entry
+{
+	//check to see if this entry is blank or there is something to it
+	if(![[entry name] isEqualToString: @""] && ![[entry section] isEqualToString: @""] && ![[entry path] isEqualToString: @""])
 	{
-		task=[[NSTask alloc] init];
+		//the entry is a real manpage, display it
+		NSString* man=[entry path];
+		
+		NSTask* task=[[NSTask alloc] init];
 		[task autorelease];
-		[task setLaunchPath: @"/usr/bin/col"];
+		[task setLaunchPath: @"/usr/bin/man"];
 		//set the arguments and the output pipe
-		[task setArguments: [NSArray arrayWithObjects: @"-b", nil]];
-		[task setStandardInput: [NSPipe pipe]];
+		[task setArguments: [NSArray arrayWithObjects: man, nil]];
+		//[task setEnvironment: [NSDictionary dictionaryWithObjectsAndKeys: @"40", @"COLUMNS", nil]];
 		[task setStandardOutput: [NSPipe pipe]];
-		NSFileHandle* input=[[task standardInput] fileHandleForWriting];
-		file=[[task standardOutput] fileHandleForReading];
+		[task setStandardError: [NSPipe pipe]];
+		NSFileHandle* file=[[task standardOutput] fileHandleForReading];
+		NSFileHandle* error=[[task standardError] fileHandleForReading];
 		[task launch];
-		[input writeData: writeData];
-		[input closeFile];
-		[contents addObject: [[[NSString alloc] initWithData: [file readDataToEndOfFile] encoding: NSUTF8StringEncoding] autorelease]];
-	}
-	
-	//actually display the stuff
-	if(contents==nil)
-	{
-		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"ManPageNotExist" value: @"That man page does not exist!" table: nil]];
+		//get the output
+		//This parsing/splitting of the data is because of some of the man pages are so large, they choke up col.  We split it up in 131,072 byte sets.  Most man pages should fit in just one of these sets.
+		NSMutableArray* encodedMan=[NSMutableArray array];
+		NSData* data=[file readDataToEndOfFile];
+		int dataOffset;
+		int end=131072;
+		if([data length]<end)
+		{
+			end=[data length];
+		}
+		for(dataOffset=0; dataOffset<[data length]; dataOffset+=131072)
+		{
+			if(dataOffset+end>[data length])
+			{
+				end=[data length]-dataOffset;
+			}
+			NSRange range={dataOffset, end};
+			[encodedMan addObject: [data subdataWithRange: range]];
+		}
+		//check if we had an error
+		if([[error readDataToEndOfFile] length]>0 && !([data length]>0))
+		{
+			//we had an error, most likely that man page does not exist
+			[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"ManPageNotExist" value: @"That man page does not exist!" table: nil]];
+			return;
+		}
+		
+		//call /usr/bin/col for each 131,072 bytes of data because for any larger data, col crashes.
+		NSMutableArray* contents=[NSMutableArray array];
+		for(NSData* writeData in encodedMan)
+		{
+			task=[[NSTask alloc] init];
+			[task autorelease];
+			[task setLaunchPath: @"/usr/bin/col"];
+			//set the arguments and the output pipe
+			[task setArguments: [NSArray arrayWithObjects: @"-b", nil]];
+			[task setEnvironment: [NSDictionary dictionaryWithObjectsAndKeys: @"40", @"COLUMNS", nil]];
+			[task setStandardInput: [NSPipe pipe]];
+			[task setStandardOutput: [NSPipe pipe]];
+			NSFileHandle* input=[[task standardInput] fileHandleForWriting];
+			file=[[task standardOutput] fileHandleForReading];
+			[task launch];
+			[input writeData: writeData];
+			[input closeFile];
+			[contents addObject: [[[NSString alloc] initWithData: [file readDataToEndOfFile] encoding: NSUTF8StringEncoding] autorelease]];
+		}
+		
+		//actually display the stuff
+		if(contents==nil)
+		{
+			[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"ManPageNotExist" value: @"That man page does not exist!" table: nil]];
+		}
+		else
+		{
+			[[[viewer textStorage] mutableString] setString: [contents componentsJoinedByString: @""]];
+		}
 	}
 	else
 	{
-		[[[viewer textStorage] mutableString] setString: [contents componentsJoinedByString: @""]];
+		//the entry was a blank default, so display the text to select something from the left
+		[[[viewer textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"SelectManPage" value: @"Please select a man page from the list on the left." table: nil]];
 	}
 }
 
@@ -128,19 +155,32 @@
 -(void)selectEntry: (NSString*)name withSection: (NSString*)section
 {
 	//given the passed in arguments, select that entry in the list
-	[manlist setSelectedObjects: [NSArray arrayWithObject: [[[ManEntry alloc] initWithName: name andSection: ((section!=nil)?section:@"") andPath: @""] autorelease]]];
+	[self selectEntry: [[[ManEntry alloc] initWithName: name andSection: ((section!=nil)?section:@"") andPath: @""] autorelease]];
+}
+
+-(void)selectEntry: (ManEntry*)entry
+{
+	//select the entrie(s) equal to entry
+	[manlist setSelectedObjects: [NSArray arrayWithObject: entry]];
 	//it is possible that multiple items were selected, make this just 1
 	[manlist setSelectionIndex: [manlist selectionIndex]];
-	//scroll to view the newly selected entry
-	[entries scrollRowToVisible: [manlist selectionIndex]];
+	//test if we have even selected an item, and if so, then only do we scroll to the visbile item
+	if([manlist selectionIndex]!=NSNotFound)
+	{
+		//an item was actually selected
+		//scroll to view the newly selected entry
+		[entries scrollRowToVisible: [manlist selectionIndex]];
+	}
 }
 
 -(void)applicationDidFinishLaunching: (NSNotification*)notification
-{
+{	
 	//set the font
 	[[viewer textStorage] setFont: [NSFont fontWithName: @"Courier" size: 12.0]];
 	//set the predicate
 	
+	//set up the delegate for the tab bar
+	[tabBar setDelegate: self];
 	//start up the IPC server
 	ipcDelegate=[[IpcDelegate alloc] initWithDelegate: self];
 	NSConnection* serverConnection=[NSConnection defaultConnection];
@@ -244,6 +284,8 @@
 
 -(void)dismissLoader
 {
+	//enable the close window menu item
+	[closeWindowMenuItem setEnabled: YES];
 	//dismiss the loader sheet
 	[[loader window] orderOut: self];
 	[NSApp endSheet: [loader window] returnCode: 0];
@@ -499,6 +541,64 @@
 		//none are set
 		[manlist setFilterPredicate: nil];
 	}
+}
+
+-(void)willSelectTabAtIndex: (NSNumber*)index
+{
+	//select the man page in the list if I can
+	[self selectEntry: [tabManList objectAtIndex: [index unsignedIntegerValue]]];
+	//actually display the manual
+	[self displayManPageFromManEntry: [tabManList objectAtIndex: [index unsignedIntegerValue]]];
+}
+
+-(void)willCloseTabAtIndex: (NSNumber*)index
+{
+	//a tab is closing so delete that object from the tabManList
+	[tabManList removeObjectAtIndex: [index unsignedIntegerValue]];
+	//test to see if there is only one more tab left, and change the menus
+	if([tabBar tabCount]==2)  //2 because it is about to be 1, hence _will_CloseTabAtIndex
+	{
+		//move the command + W to the correct menu
+		[closeTabMenuItem setKeyEquivalent: @""];
+		[closeWindowMenuItem setKeyEquivalent: @"w"];
+		//disable close tab since we don't want to allow closing the last tab
+		[closeTabMenuItem setEnabled: NO];
+	}
+}
+
+-(IBAction)newTab: (id)sender
+{
+	[tabBar addTabWithTitle: @"Untitled"];
+	[tabManList addObject: [[ManEntry alloc] init]];
+	//now select that newly added tab
+	[tabBar selectTabAtIndex: [tabManList count]-1];
+	//test if we have two tabs in the tab bar since I don't want this executing everytime we add a new tab
+	if([tabBar tabCount]==2)
+	{
+		//move the command + W to the correct menu
+		[closeWindowMenuItem setKeyEquivalent: @"W"];
+		[closeTabMenuItem setKeyEquivalent: @"w"];
+		[closeTabMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask];
+		//enable the close tab since we want to allow closing tabs since there is more than one
+		[closeTabMenuItem setEnabled: YES];
+	}
+}
+
+-(IBAction)closeTab: (id)sender
+{
+	[tabBar closeTabAtIndex: [tabBar selectedTabIndex]];
+}
+
+-(IBAction)nextTab: (id)sender
+{
+	NSUInteger previousSelectedTab=(([tabBar selectedTabIndex]<[tabBar tabCount]-1)?[tabBar selectedTabIndex]+1:0);
+	[tabBar selectTabAtIndex: previousSelectedTab];
+}
+
+-(IBAction)previousTab: (id)sender
+{
+	NSUInteger nextSelectedTab=(([tabBar selectedTabIndex]>0)?[tabBar selectedTabIndex]-1:[tabBar tabCount]-1);
+	[tabBar selectTabAtIndex: nextSelectedTab];
 }
 
 -(IBAction)update: (id)sender
