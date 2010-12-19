@@ -25,7 +25,8 @@
 		//figure out if the row that was just clicked on is currently selected
 		if([selectedRowIndexes containsIndex: row]==NO)
 		{
-			[self selectRow: row byExtendingSelection: NO];
+			//select that row that was just clicked on since it wasn't already selected
+			[self selectRowIndexes: [NSIndexSet indexSetWithIndex: row] byExtendingSelection: NO];
 		}
 		//else that row is currently selected, so don't change anything.
 		

@@ -10,6 +10,11 @@
 #import "PKTabCell.h"
 
 
+@interface PKTab (private)
+-(void)mouseEntered: (NSEvent*)theEvent;
+-(void)mouseExited: (NSEvent*)theEvent;
+@end
+
 @implementation PKTab
 
 -(PKTab*)initWithFrame: (NSRect)frameRect
@@ -117,6 +122,18 @@
 	}
 }
 
+-(void)dealloc
+{
+	[tracker release];
+	[closeButton release];
+	[delegate release];
+	[super dealloc];
+}
+
+@end
+
+@implementation PKTab (private)
+
 -(void)mouseEntered: (NSEvent*)theEvent
 {
 	cursorInside=YES;
@@ -132,14 +149,6 @@
 	cursorInside=NO;
 	//the mouse left the tab, hide the close button
 	[closeButton setHidden: YES];
-}
-
--(void)dealloc
-{
-	[tracker release];
-	[closeButton release];
-	[delegate release];
-	[super dealloc];
 }
 
 @end

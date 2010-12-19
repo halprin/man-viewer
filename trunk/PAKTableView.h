@@ -14,5 +14,4 @@
 
 }
 -(NSMenu*)menuForEvent: (NSEvent*) event;
-
 @end

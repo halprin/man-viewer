@@ -10,7 +10,7 @@
 #import "PKTab.h"
 
 
-@interface PKTabView : NSView
+@interface PKTabBar : NSView
 {
 	NSMutableArray* tabs;
 	PKTab* selectedTab;
@@ -20,7 +20,7 @@
 	NSUInteger numberHiddenTabs;
 	id delegate;
 }
--(PKTabView*)initWithFrame: (NSRect)frameRect;
+-(PKTabBar*)initWithFrame: (NSRect)frameRect;
 -(void)setDelegate: (id)newDelegate;
 -(void)addTabWithTitle: (NSString*)title;
 -(void)setSelectedTabTitle: (NSString*)newTitle;

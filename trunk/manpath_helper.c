@@ -13,6 +13,6 @@
 
 int main(int argc, char* argv[])
 {
-	execl(argv[1], "-", "-i", "-c", "/usr/bin/manpath", 0);
+	execl(argv[1], "-", "-i", "-c", "/usr/bin/manpath", NULL);
 	return 0;
 }

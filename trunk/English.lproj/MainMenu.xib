@@ -3,30 +3,23 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10H574</string>
-		<string key="IBDocument.InterfaceBuilderVersion">788</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">788</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
-			<integer value="678"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1073083813">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -54,7 +47,7 @@
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{350, 200}</string>
 				<object class="NSView" key="NSWindowView" id="305641150">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -456,7 +449,7 @@
 											<int key="NSvFlags">290</int>
 											<string key="NSFrameSize">{587, 23}</string>
 											<reference key="NSSuperview" ref="732325546"/>
-											<string key="NSClassName">PKTabView</string>
+											<string key="NSClassName">PKTabBar</string>
 										</object>
 										<object class="NSScrollView" id="21978475">
 											<reference key="NSNextResponder" ref="732325546"/>
@@ -718,7 +711,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{784, 360}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{350, 222}</string>
@@ -2381,13 +2373,23 @@
 					</object>
 					<int key="connectionID">1356</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="320108616"/>
+						<reference key="destination" ref="501303830"/>
+					</object>
+					<int key="connectionID">1357</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<object class="NSArray" key="object" id="0">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="children" ref="1073083813"/>
 						<nil key="parent"/>
 					</object>
@@ -3502,7 +3504,9 @@
 					<string>24.ImportedFromIB2</string>
 					<string>247.IBPluginDependency</string>
 					<string>247.ImportedFromIB2</string>
+					<string>248.IBEditorWindowLastContentRect</string>
 					<string>248.IBPluginDependency</string>
+					<string>248.IBWindowTemplateEditedContentRect</string>
 					<string>248.ImportedFromIB2</string>
 					<string>249.IBPluginDependency</string>
 					<string>249.ImportedFromIB2</string>
@@ -3510,7 +3514,9 @@
 					<string>251.ImportedFromIB2</string>
 					<string>253.IBPluginDependency</string>
 					<string>253.ImportedFromIB2</string>
+					<string>254.IBEditorWindowLastContentRect</string>
 					<string>254.IBPluginDependency</string>
+					<string>254.IBWindowTemplateEditedContentRect</string>
 					<string>254.ImportedFromIB2</string>
 					<string>255.IBPluginDependency</string>
 					<string>255.ImportedFromIB2</string>
@@ -3543,6 +3549,7 @@
 					<string>317.ImportedFromIB2</string>
 					<string>448.IBPluginDependency</string>
 					<string>448.ImportedFromIB2</string>
+					<string>451.CustomClassName</string>
 					<string>451.IBPluginDependency</string>
 					<string>451.ImportedFromIB2</string>
 					<string>471.IBPluginDependency</string>
@@ -3760,7 +3767,9 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>{{0, 920}, {400, 75}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{0, 920}, {400, 75}}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
@@ -3768,7 +3777,9 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>{{21, 690}, {450, 282}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{21, 690}, {450, 282}}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
@@ -3801,6 +3812,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>PKTextView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3864,7 +3876,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1356</int>
+			<int key="maxID">1357</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3949,7 +3961,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">PKTabView</string>
+					<string key="className">PKTabBar</string>
 					<string key="superclassName">NSView</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">delegate</string>
@@ -3963,8 +3975,16 @@
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PKTextView</string>
+					<string key="superclassName">NSTextView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">PKTabView.h</string>
+						<string key="minorKey">PKTextView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4255,8 +4275,8 @@
 							<string>NSArrayController</string>
 							<string>Preferences</string>
 							<string>NSSearchField</string>
-							<string>PKTabView</string>
-							<string>NSTextView</string>
+							<string>PKTabBar</string>
+							<string>PKTextView</string>
 							<string>NSWindow</string>
 						</object>
 					</object>
@@ -4312,11 +4332,11 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tabBar</string>
-								<string key="candidateClassName">PKTabView</string>
+								<string key="candidateClassName">PKTabBar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">viewer</string>
-								<string key="candidateClassName">NSTextView</string>
+								<string key="candidateClassName">PKTextView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">window</string>
@@ -5055,10 +5075,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
 		</object>
