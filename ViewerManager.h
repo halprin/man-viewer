@@ -6,7 +6,8 @@
 #import "ManEntry.h"
 #import "PAKTableView.h"
 #import "IpcDelegate.h"
-#import "PKTabView.h"
+#import "PKTabBar.h"
+#import "PKTextView.h"
 
 
 static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoaded";
@@ -16,7 +17,7 @@ static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoad
     IBOutlet PAKTableView* entries;
     IBOutlet NSPopUpButton* filter;
     IBOutlet NSSearchField* searcher;
-    IBOutlet NSTextView* viewer;
+    IBOutlet PKTextView* viewer;
 	IBOutlet NSWindow* window;
 	IBOutlet Loader* loader;
 	IBOutlet Preferences* preferences;
@@ -28,7 +29,7 @@ static NSString* const PKNotificationManPagesLoaded=@"PKNotificationManPagesLoad
 	NSString* filterString;
 	NSMutableArray* cache;  //a list of all the man entries
 	IpcDelegate* ipcDelegate;
-	IBOutlet PKTabView* tabBar;
+	IBOutlet PKTabBar* tabBar;
 	IBOutlet NSMenuItem* closeWindowMenuItem;
 	IBOutlet NSMenuItem* closeTabMenuItem;
 }

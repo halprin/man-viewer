@@ -6,13 +6,24 @@
 //  Copyright 2010 @PAK Software. All rights reserved.
 //
 
-#import "PKTabView.h"
+#import "PKTabBar.h"
 #import "PKTabCell.h"
 
+@interface PKTabBar (private)
+-(void)frameResized: (NSNotification*)notification;
+-(void)moveTabWithIndexToDropDown: (NSUInteger)index;
+-(void)moveTabWithIndexFromDropDown: (NSUInteger)index;
+-(void)tabWillBeSelected: (PKTab*)newlySelectedTab;
+-(void)tabWasSelected: (PKTab*)newlySelectedTab;
+-(void)tabWasSelectedFromMenu: (NSMenuItem*)selectedItem;
+-(void)willCloseTab: (PKTab*)dyingTab;
+-(void)didCloseTab: (PKTab*)dyingTab;
+@end
 
-@implementation PKTabView
 
--(PKTabView*)initWithFrame: (NSRect)frameRect
+@implementation PKTabBar
+
+-(PKTabBar*)initWithFrame: (NSRect)frameRect
 {
 	if(self=[super initWithFrame: frameRect])
 	{
@@ -115,6 +126,18 @@
 {
 	return numberHiddenTabs;
 }
+
+-(void)dealloc
+{
+	[tabs release];
+	[selectedTab release];
+	[delegate release];
+	[super dealloc];
+}
+
+@end
+
+@implementation PKTabBar (private)
 
 -(void)frameResized: (NSNotification*)notification
 {
@@ -310,52 +333,6 @@
 	{
 		[((PKTab*)[tabs objectAtIndex: 0]) hideCloseButton: YES];
 	}
-}
-
--(void)drawRect: (NSRect)dirtyRect
-{
-	/*
-	//test if we are live resizing (such as when we are resizing the window)
-	if([self inLiveResize])
-	{
-		//test if we are too small to display all the tabs
-		//if([self frame].size.width<[self tabCount]*106+26)
-		{
-			//we are too small to display all the tabs
-			//add the dropdown menu
-			NSUInteger newHideIndex=(([self frame].size.width-26)/106)-1;
-			if(newHideIndex<hideIndex && hideIndex<[self tabCount])
-			{
-				//we just covered up yet another tab, we are shrinking in size
-				//hide the newly covered up tab
-				[[tabs objectAtIndex: hideIndex] setHidden: YES];
-				hideIndex=newHideIndex;
-			}
-			else if(newHideIndex>hideIndex && hideIndex<[self tabCount])
-			{
-				//we just fully unveiled a tab, we are increasing in size
-				//show the previously hidden tab
-				[[tabs objectAtIndex: newHideIndex] setHidden: NO];
-				hideIndex=newHideIndex;
-			}
-			
-			//[dropDownMenu setFrameOrigin: NSMakePoint(([[self subviews] count]-1)*106, 0)];
-			//[dropDownMenu setHidden: NO];
-		}
-		//else
-		{
-			//[dropDownMenu setHidden: YES];
-		}
-	}
-	*/
-}
-
--(void)dealloc
-{
-	[tabs release];
-	[selectedTab release];
-	[delegate release];
-	[super dealloc];
 }
 
 @end

@@ -17,6 +17,8 @@
 		filterString=[[NSString string] retain];
 		cache=[[NSMutableArray array] retain];
 		loaded=NO;
+		//set up to listen for when the TextView/Window finishes its live resize
+		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(finishedLiveResize:) name: @"PKTextViewDidEndLiveResize" object: viewer];
 	}
 	return self;
 }
@@ -49,6 +51,31 @@
 	[self displayManPageFromManEntry: entry];
 }
 
+-(void)finishedLiveResize: (NSNotification*)notification
+{
+		//redisplay the man page for the current tab so that it fills up the newly resized view
+		[self displayManPageFromManEntry: [tabManList objectAtIndex: [tabBar selectedTabIndex]]];
+		//NSLog(@"%@", [notification name]);
+}
+
+-(BOOL)windowShouldZoom: (NSWindow*)windowShouldZoom toFrame: (NSRect)newFrame
+{
+	//the zoom (green) button was pressed which means a change in the size of the text view changed
+	//set ourselves up to listen for the windowDidResize notification so we know when the window finished resizing from the zoom
+	[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(windowDidResizeForZoom:) name: NSWindowDidResizeNotification object: window];
+	//finally, return YES to allow the zoom to happen
+	return YES;
+}
+
+-(void)windowDidResizeForZoom: (NSNotification*)notification
+{
+	//the window just finished resizing from the zoom
+	//call for the man page to be reloaded so it can take up the full width
+	[self displayManPageFromManEntry: [tabManList objectAtIndex: [tabBar selectedTabIndex]]];
+	//take us off the notification listening list so this method is not called a bunch of times for every single little resize
+	[[NSNotificationCenter defaultCenter] removeObserver: self  name: NSWindowDidResizeNotification object: window];
+}
+
 -(void)displayManPageFromManEntry: (ManEntry*)entry
 {
 	//check to see if this entry is blank or there is something to it
@@ -62,7 +89,15 @@
 		[task setLaunchPath: @"/usr/bin/man"];
 		//set the arguments and the output pipe
 		[task setArguments: [NSArray arrayWithObjects: man, nil]];
-		//[task setEnvironment: [NSDictionary dictionaryWithObjectsAndKeys: @"40", @"COLUMNS", nil]];
+		//set it up so that we get more text per row if the text viewer is larger than normal
+		NSInteger manwidth=([viewer bounds].size.width/7.2);
+		if(manwidth>=66 && manwidth<=77)
+		{
+			//manwidth is between 66 and 77, inclusive
+			//we need to do some custom surgery of the manwidth calculation because it is between these values that man doesn't shrink the width of the output enough so that it starts wrapping
+			manwidth=65;
+		}
+		[task setEnvironment: [NSDictionary dictionaryWithObjectsAndKeys: [[NSNumber numberWithInteger: manwidth] stringValue], @"MANWIDTH", nil]];
 		[task setStandardOutput: [NSPipe pipe]];
 		[task setStandardError: [NSPipe pipe]];
 		NSFileHandle* file=[[task standardOutput] fileHandleForReading];
@@ -104,7 +139,6 @@
 			[task setLaunchPath: @"/usr/bin/col"];
 			//set the arguments and the output pipe
 			[task setArguments: [NSArray arrayWithObjects: @"-b", nil]];
-			[task setEnvironment: [NSDictionary dictionaryWithObjectsAndKeys: @"40", @"COLUMNS", nil]];
 			[task setStandardInput: [NSPipe pipe]];
 			[task setStandardOutput: [NSPipe pipe]];
 			NSFileHandle* input=[[task standardInput] fileHandleForWriting];
@@ -174,20 +208,15 @@
 }
 
 -(void)applicationDidFinishLaunching: (NSNotification*)notification
-{	
+{
 	//set the font
 	[[viewer textStorage] setFont: [NSFont fontWithName: @"Courier" size: 12.0]];
-	//set the predicate
-	
+	//set up to listen for when the TextView finishes its live resize
+
 	//set up the delegate for the tab bar
 	[tabBar setDelegate: self];
 	//add the default first tab
 	[tabBar addTabWithTitle: @"Untitled"];
-	//start up the IPC server
-	ipcDelegate=[[IpcDelegate alloc] initWithDelegate: self];
-	NSConnection* serverConnection=[NSConnection defaultConnection];
-	[serverConnection setRootObject: ipcDelegate];
-	[serverConnection registerName: @"PAKManViewer"];
 	
 	//load the preferences
 	NSFileManager *prefs=[NSFileManager defaultManager];
@@ -261,6 +290,12 @@
 
 -(void)finishApplicationLoad
 {
+	//start up the IPC server to react to manv
+	ipcDelegate=[[IpcDelegate alloc] initWithDelegate: self];
+	NSConnection* serverConnection=[NSConnection defaultConnection];
+	[serverConnection setRootObject: ipcDelegate];
+	[serverConnection registerName: @"PAKManViewer"];
+	
 	//test if any command arguments were passed to this Cocoa application
 	//supposed to be a name of a man page that is automatically selected
 	if([[[NSProcessInfo processInfo] arguments] count]==2)
@@ -401,13 +436,13 @@
 	//now we call the outside program to do the actual copy
 	
 	//specify the arguments that we will pass to cp
-	char* arguments[]={[[[NSBundle mainBundle] pathForResource: @"manv" ofType: @""] cStringUsingEncoding: NSISOLatin1StringEncoding], "/usr/local/bin/", NULL};
+	const char* arguments[]={[[[NSBundle mainBundle] pathForResource: @"manv" ofType: @""] cStringUsingEncoding: NSISOLatin1StringEncoding], "/usr/local/bin/", NULL};
 	//authorization=the authorization reference so this function knows what we are talking about
 	//"/bin/cp"=the full path to the UNIX copy program
-	//kAuthorizationFlagDefaults=wwe don't need any special flags so specify the default
+	//kAuthorizationFlagDefaults=we don't need any special flags so specify the default
 	//arguments=pass in the agruments to the cp program
 	//NULL=we don't care about getting output back from cp
-	status=AuthorizationExecuteWithPrivileges(authorization, "/bin/cp", kAuthorizationFlagDefaults, arguments, NULL);
+	status=AuthorizationExecuteWithPrivileges(authorization, "/bin/cp", kAuthorizationFlagDefaults, (char *const *)arguments, NULL);
 	
 	//check if the above action was allowed and sucessful
 	if(status!=errAuthorizationSuccess)

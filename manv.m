@@ -66,7 +66,11 @@ int main(int argc, const char* argv[])
 	while((proxy=[NSConnection rootProxyForConnectionWithRegisteredName: @"PAKManViewer" host: nil])==nil);
 	//we now have the proxy (that means Man Viewer has loaded up enough to start recieving calls)
 	//send the command
-	[proxy ipcSelectManPage: manpage withSection: section];
+	//[proxy ipcSelectManPage: manpage withSection: section];
+	if([proxy respondsToSelector: @selector(ipcSelectManPage:withSection:)])
+	{
+		[proxy performSelector: @selector(ipcSelectManPage:withSection:) withObject: manpage withObject: section];
+	}
 	
 	//clean up
     [pool drain];
