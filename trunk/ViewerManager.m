@@ -605,10 +605,16 @@
 
 -(IBAction)newTab: (id)sender
 {
+	//add the tab and wait for the delegate to recieve the method bellow to be called
 	[tabBar addTabWithTitle: @"Untitled"];
+}
+
+-(void)didAddTabAtIndex: (NSNumber*)index
+{
+	//a new tab was just added, do some book keeping
 	[tabManList addObject: [[ManEntry alloc] init]];
 	//now select that newly added tab
-	[tabBar selectTabAtIndex: [tabManList count]-1];
+	[tabBar selectTabAtIndex: [index unsignedIntegerValue]];
 	//test if we have two tabs in the tab bar since I don't want this executing everytime we add a new tab
 	if([tabBar tabCount]==2)
 	{

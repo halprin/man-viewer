@@ -11,7 +11,7 @@
 
 @interface PAKTableView : NSTableView
 {
-
+	
 }
 -(NSMenu*)menuForEvent: (NSEvent*) event;
 @end

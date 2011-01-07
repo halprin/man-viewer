@@ -11,6 +11,7 @@
 
 @interface PKTabBar (private)
 -(void)frameResized: (NSNotification*)notification;
+-(void)mouseDown: (NSEvent*)theEvent;
 -(void)moveTabWithIndexToDropDown: (NSUInteger)index;
 -(void)moveTabWithIndexFromDropDown: (NSUInteger)index;
 -(void)tabWillBeSelected: (PKTab*)newlySelectedTab;
@@ -83,6 +84,11 @@
 	//I need to incriment the hideIndex by one so that when I call frameResize it thinks that we shrunk and it needs to (potentially) hide some tabs
 	hideIndex++;
 	[self frameResized: nil];
+	//notify the delegate that a new tab was added
+	if([delegate respondsToSelector: @selector(didAddTabAtIndex:)])
+	{
+		[delegate performSelector: @selector(didAddTabAtIndex:) withObject: [NSNumber numberWithUnsignedInteger: [tabs indexOfObjectIdenticalTo: newTab]]];
+	}
 }
 
 -(void)setSelectedTabTitle: (NSString*)newTitle
@@ -158,6 +164,17 @@
 	}
 	//set the new hide index to the current hide index
 	hideIndex=newHideIndex;
+}
+
+-(void)mouseDown: (NSEvent*)theEvent
+{
+	//test if this is a double click
+	if([theEvent clickCount]==2)
+	{
+		//it was a double click
+		//create a new tab
+		[self addTabWithTitle: @"Untitled"];
+	}
 }
 
 -(void)moveTabWithIndexToDropDown: (NSUInteger)index
