@@ -1,0 +1,25 @@
+﻿/* 
+   Localizable.strings
+   Man Viewer
+
+   Created by Peter Kendall on 1/12/10.
+   Copyright 2010 @PAK Software. All rights reserved.
+ */
+
+"LoadingManPages"="Laden man Seiten...";
+"LoadingManPagesCached"="Laden man Seiten...  (zwischengespeichert)";
+
+"SelectManPage"="Bitte wählen Sie eine man-Seite aus der Liste auf der linken Seite.";
+"ManPageNotExist"="Daß man-Seite existiert nicht!";
+
+"AutoLookup"="Automatisches Nachschlagen %@";
+"AutoLookupSection"="Automatisches Nachschlagen %@ (%@)";
+
+"InstallCommandLineTool"="Installieren Kommandozeilen Werkzeug";
+"OK"="OK";
+"Cancel"="Abbrechen";
+"CommandLineToolDescription"="Man Viewer installiert jetzt manv, ein Kommandozeilen Werkzeug, in /usr/local/bin/.  manv macht es einfach, bis man-Seiten in Man Viewer von der Kommandozeile aus.  Mehr Details finden Sie in der Readme-Datei zu finden.";
+"AuthorizationDenied"="Genehmigung verweigert!";
+"ManvNotInstalled"="manv wurde nicht installiert.";
+"ManvInstalled"="manv Erfolgreich Installiert";
+"ManvInstalledDescription"="manv installiert wurde /usr/local/bin/.  Sie können nun manv direkt aus dem Terminal.\nNutzung:  $ manv [Abschnitt] man-Seite";

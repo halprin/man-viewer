@@ -1,0 +1,7 @@
+* Linking to other man pages
+	* Remember viewing history with forward and back
+* Inlined search similar to Safari
+* Add other language localizations
+	* Spanish
+	* French
+* Use User Defaults to their fullest
