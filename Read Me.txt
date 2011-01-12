@@ -5,6 +5,10 @@ Thanks for downloading Man Viewer!  It allows you to easily view UNIX manual pag
 
 A few things you can do is search based on the name, filter based on the section, and save the man page in plain text and in Styled PostScript.  The Styled PostScript can be converted to a PDF by opening the saved file in Preview.app.  Two other features include hovering over a man page entry in the list which shows the path to the man page as a tooltip, and right/control clicking on a man page entry allowing you to reveal that man page in the Finder by the context menu.
 
+Man Viewer supports tabbed viewing similar to browsers.  New tabs can be created by going to the File -> New Tab (⌘ + T) menu item.  You can switch between them by clicking on them or through the Window menu.
+
+Through the Man Viewer -> Install Command Line Tools... menu item you can install manv, a command line version of Man Viewer.  Use manv in a similar fashion to man.  Invoking manv correctly will launch Man Viewer, if it is not already open, and automatically select the manual entry.
+
 By default on first launch, the preferences are set to the output of /usr/bin/manpath.  You can view the preferences by going to Man Viewer -> Preferences... or pressing (⌘ + ,).  Here you can customize the directories that Man Viewer searches for man pages.  Just type a new path in the text box and then press the + button to add a directory.  Select a directory in the list and press the - buton to delete it.  Double click on a directory in the list to edit it.  You can also press the "Reload from manpath" button to set your preferences back to the output of /usr/bin/manpath.
 
 There is a caching feature that caches the entries found so subsequent launches are much faster.  If you rather force Man Viewer to scan the disk again for the man pages at launch, hold down ⌘ while launching the application.  While the application is running you can go to File -> Update (⌘U) to force Man Viewer to scan the disk again for the man pages.  The caching feature is disabled if this is the first time that a new version of Man Viewer is ran.
