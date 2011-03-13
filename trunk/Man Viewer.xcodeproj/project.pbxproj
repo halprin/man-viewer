@@ -17,7 +17,6 @@
 		EE0F277210FD984300D822F6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE0F277110FD984300D822F6 /* Localizable.strings */; };
 		EE286FEB12AB5E55000B9FD4 /* PKTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE286FEA12AB5E55000B9FD4 /* PKTextView.m */; };
 		EE37F2C110F9A6CB00DCC3EA /* manpath_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = EEADB103108EAF1300EE89D3 /* manpath_helper.c */; };
-		EE37F2D010F9A8AC00DCC3EA /* manpath_helper in Resources */ = {isa = PBXBuildFile; fileRef = EE37F2BA10F9A68800DCC3EA /* manpath_helper */; };
 		EE37F44B10F9B71E00DCC3EA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		EE37F44C10F9B71E00DCC3EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE37F45C10F9B78000DCC3EA /* manv.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37F45B10F9B78000DCC3EA /* manv.m */; };
@@ -25,11 +24,12 @@
 		EE45495412823F2900ED77CF /* PKTab.m in Sources */ = {isa = PBXBuildFile; fileRef = EE45495312823F2900ED77CF /* PKTab.m */; };
 		EE45499C1282462700ED77CF /* PKTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = EE45499B1282462700ED77CF /* PKTabBar.m */; };
 		EE5D4B7211D98B2900E05A70 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE5D4B7011D98B2900E05A70 /* MainMenu.xib */; };
-		EEA30DC210FAAC9100B6C4B1 /* manv in Resources */ = {isa = PBXBuildFile; fileRef = EE37F3BB10F9B5A600DCC3EA /* manv */; };
 		EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = EEB3AAEA0D7E4B9E009C79FA /* Credits.html */; };
 		EECABAB60D52AFD800F5084A /* hex.icns in Resources */ = {isa = PBXBuildFile; fileRef = EECABAB50D52AFD800F5084A /* hex.icns */; };
 		EED5CA0E0D78ACD8006928CF /* ManEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA0D0D78ACD8006928CF /* ManEntry.m */; };
 		EEDBF6E312863BED00720D86 /* PKTabCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDBF6E212863BED00720D86 /* PKTabCell.m */; };
+		EEE643A61329EE0900779A38 /* manpath_helper in Resources */ = {isa = PBXBuildFile; fileRef = EE37F2BA10F9A68800DCC3EA /* manpath_helper */; };
+		EEE643A71329EE0B00779A38 /* manv in Resources */ = {isa = PBXBuildFile; fileRef = EE37F3BB10F9B5A600DCC3EA /* manv */; };
 		EEF27B8A0B84BB1700802668 /* ViewerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF27B890B84BB1700802668 /* ViewerManager.m */; };
 /* End PBXBuildFile section */
 
@@ -361,10 +361,10 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				EECABAB60D52AFD800F5084A /* hex.icns in Resources */,
 				EEB3AAEB0D7E4B9E009C79FA /* Credits.html in Resources */,
-				EE37F2D010F9A8AC00DCC3EA /* manpath_helper in Resources */,
-				EEA30DC210FAAC9100B6C4B1 /* manv in Resources */,
 				EE0F277210FD984300D822F6 /* Localizable.strings in Resources */,
 				EE5D4B7211D98B2900E05A70 /* MainMenu.xib in Resources */,
+				EEE643A61329EE0900779A38 /* manpath_helper in Resources */,
+				EEE643A71329EE0B00779A38 /* manv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,16 +453,15 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Man Viewer_Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Man Viewer";
 			};
 			name = Debug;
@@ -470,12 +469,11 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Man Viewer_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = "Man Viewer";
 			};
 			name = Release;
@@ -483,8 +481,15 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -493,12 +498,12 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_ASM_KEYWORD = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				PREBINDING = NO;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -509,10 +514,8 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
 				PRODUCT_NAME = manpath_helper;
 			};
 			name = Debug;
@@ -524,9 +527,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				PRODUCT_NAME = manpath_helper;
 			};
 			name = Release;
