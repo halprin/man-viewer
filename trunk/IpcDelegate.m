@@ -22,7 +22,6 @@
 
 -(void)ipcSelectManPage: (NSString*)manpage withSection: (NSString*)section
 {
-	//[reference selectEntry: manpage withSection: section];
 	if([reference respondsToSelector: @selector(selectEntry:withSection:)])
 	{
 		[reference performSelector: @selector(selectEntry:withSection:) withObject: manpage withObject: section];

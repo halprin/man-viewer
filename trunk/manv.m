@@ -6,7 +6,7 @@
 //  It is a helper program to be installed into /usr/local/bin so it is easy for a user to open Man Viewer with a specified manpage.
 //
 //  Created by Peter Kendall on 1/10/10.
-//  Copyright 2010 @PAK Software. All rights reserved.
+//  Copyright 2011 @PAK Software. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -36,13 +36,13 @@ int main(int argc, const char* argv[])
 	}
 	else if(argc==2)
 	{
-		manpage=[NSString stringWithCString: argv[1] encoding: NSISOLatin1StringEncoding];
+		manpage=[NSString stringWithCString: argv[1] encoding: NSUTF8StringEncoding];
 		NSLog([languageStrings valueForKey: @"Lookup"], manpage);
 	}
 	else if(argc==3)
 	{
-		manpage=[NSString stringWithCString: argv[2] encoding: NSISOLatin1StringEncoding];
-		section=[NSString stringWithCString: argv[1] encoding: NSISOLatin1StringEncoding];
+		manpage=[NSString stringWithCString: argv[2] encoding: NSUTF8StringEncoding];
+		section=[NSString stringWithCString: argv[1] encoding: NSUTF8StringEncoding];
 		NSLog([languageStrings valueForKey: @"LookupSection"], manpage, section);
 	}
 	else
@@ -66,7 +66,6 @@ int main(int argc, const char* argv[])
 	while((proxy=[NSConnection rootProxyForConnectionWithRegisteredName: @"PAKManViewer" host: nil])==nil);
 	//we now have the proxy (that means Man Viewer has loaded up enough to start recieving calls)
 	//send the command
-	//[proxy ipcSelectManPage: manpage withSection: section];
 	if([proxy respondsToSelector: @selector(ipcSelectManPage:withSection:)])
 	{
 		[proxy performSelector: @selector(ipcSelectManPage:withSection:) withObject: manpage withObject: section];

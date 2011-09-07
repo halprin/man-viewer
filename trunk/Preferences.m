@@ -21,7 +21,7 @@
 	return self;
 }
 
--(int)numberOfRowsInTableView: (NSTableView*)aTableView
+-(NSUInteger)numberOfRowsInTableView: (NSTableView*)aTableView
 {
 	return [newOne count];
 }
