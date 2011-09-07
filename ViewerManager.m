@@ -108,7 +108,7 @@
 		NSMutableArray* encodedMan=[NSMutableArray array];
 		NSData* data=[file readDataToEndOfFile];
 		int dataOffset;
-		int end=131072;
+		NSUInteger end=131072;
 		if([data length]<end)
 		{
 			end=[data length];
@@ -716,7 +716,7 @@
 	NSAutoreleasePool* pool=[[NSAutoreleasePool alloc] init];
 	
 	//cache is assumed to not have any duplicates because it will be created without any duplicates
-	int twentieths=[cache count]/20;
+	NSUInteger twentieths=[cache count]/20;
 	
 	//iterate through the cache
 	int count=0;
@@ -847,7 +847,7 @@
 	
 	//now go through the hashmap dictionary and create the cache and add the items to the actual list
 	NSArray* manValues=[hashmap allValues];
-	int fraction=[manValues count]/((11*[searchDirectories count])*.5);
+	NSUInteger fraction=[manValues count]/((11*[searchDirectories count])*.5);
 	int count=0;
 	for(NSArray* manItem in manValues)
 	{

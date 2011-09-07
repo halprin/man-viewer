@@ -67,7 +67,7 @@
 
 -(BOOL)isEqual: (id)anObject
 {
-	if([[anObject name] isEqualToString: [self name]] && ([[self section] isEqualToString: @""] || [[anObject section] isEqualToString: [self section]]))
+	if([[anObject name] isEqualToString: [self name]] && ([[self section] isEqualToString: @""] || [[anObject section] isEqualToString: @""] || [[anObject section] isEqualToString: [self section]]))
 	{
 		return YES;
 	}
