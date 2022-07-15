@@ -4,7 +4,7 @@ Man Viewer is an easy to use program to view the man pages that are installed on
 - Universal so it runs natively on PowerPC and x86 Macs
 - macOS 10.5 (Leopard) or higher
 
-[Direct binary download](http://kendallp.net/public/files/software/man_viewer_320.dmg)
+[Direct binary download](https://halprin.io/public/files/software/man_viewer_320.dmg)
 
 ![screenshot](https://user-images.githubusercontent.com/16943066/33195584-2b343944-d096-11e7-84e4-d0f6055903c5.png)
 
